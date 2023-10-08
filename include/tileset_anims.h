@@ -31,5 +31,8 @@ void InitTilesetAnim_MauvilleGym(void);
 void InitTilesetAnim_EliteFour(void);
 void InitTilesetAnim_BattleDome(void);
 void InitTilesetAnim_BattlePyramid(void);
+// new stuff
+void InitTilesetAnim_Test(void);
+// end new stuff
 
 #endif // GUARD_TILESET_ANIMS_H

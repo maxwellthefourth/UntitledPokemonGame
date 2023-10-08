@@ -1,3 +1,21 @@
+LittlerootTown_EventScript_NewSign::
+	lockall
+	goto_if_unset FLAG_SIGN_READ, LittlerootTown_EventScript_NewSign_2
+	addvar VAR_SIGN_READ, 1
+	buffernumberstring STR_VAR_1, VAR_SIGN_READ
+	msgbox LittlerootTown_EventScript_NewSign_Text_1
+LittlerootTown_EventScript_NewSign_1:
+	releaseall
+	return
+
+LittlerootTown_EventScript_NewSign_2:
+	setvar VAR_SIGN_READ, 1
+	buffernumberstring STR_VAR_1, VAR_SIGN_READ
+	msgbox LittlerootTown_EventScript_NewSign_Text_0
+	setflag FLAG_SIGN_READ
+	goto LittlerootTown_EventScript_NewSign_1
+
+
 .set LOCALID_TWIN, 1
 .set LOCALID_MOM, 4
 .set LOCALID_RIVAL, 7
@@ -1019,3 +1037,13 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "I have something to show you.\n"
 	.string "Let's go to my LAB.$"
 
+LittlerootTown_EventScript_NewSign_Text_0:
+	.string "Whatup! You've read this sign\n"
+	.string "{STR_VAR_1} time!$"
+
+LittlerootTown_EventScript_NewSign_Text_1:
+	.string "Hey again! You've read this sign\n"
+	.string "{STR_VAR_1} times!$"
+
+TestText::
+	.string "Whatup, bitch!$"
