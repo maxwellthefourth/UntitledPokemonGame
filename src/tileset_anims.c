@@ -147,9 +147,9 @@ const u16 *const gTilesetAnims_Test_Sand_Edge[] = {
     gTilesetAnims_Test_Sand_Edge_Frame0,
     gTilesetAnims_Test_Sand_Edge_Frame0,
     gTilesetAnims_Test_Sand_Edge_Frame2,
+    gTilesetAnims_Test_Sand_Edge_Frame3,
+    gTilesetAnims_Test_Sand_Edge_Frame3,
     gTilesetAnims_Test_Sand_Edge_Frame2,
-    gTilesetAnims_Test_Sand_Edge_Frame3,
-    gTilesetAnims_Test_Sand_Edge_Frame3,
     gTilesetAnims_Test_Sand_Edge_Frame2
 };
 
