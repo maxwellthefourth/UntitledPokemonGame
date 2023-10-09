@@ -12,6 +12,8 @@ script LittlerootTown_EventScript_NewSign {
         buffernumberstring(STR_VAR_1, VAR_SIGN_READ)
         msgbox(format("Whatup! You've read this sign {STR_VAR_1} time!"))
         setflag(FLAG_SIGN_READ)
+		setflag(FLAG_SYS_QUEST_MENU_GET)
+		openquestmenu
     } else {
         addvar(VAR_SIGN_READ, 1)
         buffernumberstring(STR_VAR_1, VAR_SIGN_READ)

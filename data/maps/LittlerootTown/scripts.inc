@@ -13,6 +13,8 @@ LittlerootTown_EventScript_NewSign_2:
 	buffernumberstring STR_VAR_1, VAR_SIGN_READ
 	msgbox LittlerootTown_EventScript_NewSign_Text_0
 	setflag FLAG_SIGN_READ
+	setflag FLAG_SYS_QUEST_MENU_GET
+	openquestmenu
 	goto LittlerootTown_EventScript_NewSign_1
 
 
