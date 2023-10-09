@@ -104,6 +104,8 @@ static const struct SecretBaseEntranceMetatiles sSecretBaseEntranceMetatiles[] =
     {.closedMetatileId = METATILE_General_BlueCaveIndent,       .openMetatileId = METATILE_General_BlueCaveOpen},
     {.closedMetatileId = METATILE_Fallarbor_BrownCaveIndent,    .openMetatileId = METATILE_Fallarbor_BrownCaveOpen},
     {.closedMetatileId = METATILE_Fortree_SecretBase_Shrub,     .openMetatileId = METATILE_Fortree_SecretBase_ShrubOpen},
+    {.closedMetatileId = METATILE_PorytilesPrimaryTest_BrownCaveIndent,     .openMetatileId = METATILE_PorytilesPrimaryTest_BrownCaveOpen},
+    {.closedMetatileId = METATILE_PorytilesPrimaryTest_SecretBase_TreeLeft,     .openMetatileId = METATILE_PorytilesPrimaryTest_SecretBase_VineLeft},
 };
 
 // mapNum, warpId, x, y

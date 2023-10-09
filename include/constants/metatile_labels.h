@@ -438,6 +438,7 @@
 #define METATILE_PorytilesPrimaryTest_Door_PokeCenter                    0x1E2
 #define METATILE_PorytilesPrimaryTest_Door_PokeMart                      0x1B9
 #define METATILE_PorytilesPrimaryTest_Grass                              0x000
+#define METATILE_PorytilesPrimaryTest_Sand                               0x056
 #define METATILE_PorytilesPrimaryTest_Grass_TreeSideLeft                 0x068
 #define METATILE_PorytilesPrimaryTest_Grass_TreeSideRight                0x06B
 #define METATILE_PorytilesPrimaryTest_Grass_TreeUp                       0x060
@@ -445,7 +446,7 @@
 #define METATILE_PorytilesPrimaryTest_Grass_TreeUpperLeftSideLeft        0x06C
 #define METATILE_PorytilesPrimaryTest_Grass_TreeUpperRight               0x062
 #define METATILE_PorytilesPrimaryTest_Grass_TreeUpperRightSideRight      0x06D
-#define METATILE_PorytilesPrimaryTest_MuddySlope_Frame0                  0x138
+#define METATILE_PorytilesPrimaryTest_MuddySlope_Frame0                  0x138 // probably currently breaking all general-tile maps
 #define METATILE_PorytilesPrimaryTest_MuddySlope_Frame1                  0x139
 #define METATILE_PorytilesPrimaryTest_MuddySlope_Frame2                  0x13A
 #define METATILE_PorytilesPrimaryTest_MuddySlope_Frame3                  0x13B

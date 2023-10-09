@@ -388,6 +388,63 @@ static void SetCutGrassMetatile(s16 x, s16 y)
     case METATILE_General_TallGrass_TreeUp:
         MapGridSetMetatileIdAt(x, y, METATILE_General_Grass_TreeUp);
         break;
+    case METATILE_PorytilesPrimaryTest_TallGrass:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Corner1:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Corner2:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Corner3:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Corner4:
+    case METATILE_PorytilesPrimaryTest_TallGrass_HorLeft:
+    case METATILE_PorytilesPrimaryTest_TallGrass_HorMid:
+    case METATILE_PorytilesPrimaryTest_TallGrass_HorRight:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Side1:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Side2:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Side3:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Side4:
+    case METATILE_PorytilesPrimaryTest_TallGrass_Single:
+    case METATILE_PorytilesPrimaryTest_TallGrass_VerBot:
+    case METATILE_PorytilesPrimaryTest_TallGrass_VerMid:
+    case METATILE_PorytilesPrimaryTest_TallGrass_VerTop:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeSideLeft:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeSideLeft);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeSideRight:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeSideRight);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeUp:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeUp);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeUpperLeft:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeUpperLeft);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeUpperLeftSideLeft:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeUpperLeftSideLeft);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeUpperRight:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeUpperRight);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrass_TreeUpperRightSideRight:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Grass_TreeUpperRightSideRight);
+        break;
+    case METATILE_PorytilesPrimaryTest_TallGrassSand:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Corner1:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Corner2:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Corner3:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Corner4:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_HorLeft:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_HorMid:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_HorRight:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Side1:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Side2:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Side3:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Side4:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_Single:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_VerBot:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_VerMid:
+    case METATILE_PorytilesPrimaryTest_TallGrassSand_VerTop:
+        MapGridSetMetatileIdAt(x, y, METATILE_PorytilesPrimaryTest_Sand);
+        break;
     }
 }
 
