@@ -8,6 +8,8 @@
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
 
+// file has been edited to remove door top sprite opening (so only 2x2 tile doors work, similar to FRLG)
+
 #define DOOR_SOUND_NORMAL  0
 #define DOOR_SOUND_SLIDING 1
 #define DOOR_SOUND_ARENA   2
@@ -171,6 +173,7 @@ static const struct DoorAnimFrame sBigDoorCloseAnimFrames[] =
 static const u8 sDoorAnimPalettes_General[] = {1, 1, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_PokeCenter[] = {1, 1, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_Gym[] = {5, 5, 5, 5, 5, 5, 5, 5};
+static const u8 sDoorAnimPalettes_PokeMart_New[] = {5, 5, 5, 5, 5, 5, 5, 5};
 static const u8 sDoorAnimPalettes_PokeMart[] = {0, 0, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_Littleroot[] = {10, 10, 6, 6, 6, 6, 6, 6};
 static const u8 sDoorAnimPalettes_BirchsLab[] = {8, 8, 8, 8, 8, 8, 8, 8};
@@ -279,7 +282,7 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_TrainerHill_Door_Elevator_Roof,               DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_TrainerHillRoofElevator, sDoorAnimPalettes_TrainerHillRoofElevator},
     {METATILE_PorytilesPrimaryTest_Door_PokeCenter,         DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_PokeCenter, sDoorAnimPalettes_PokeCenter},
     {METATILE_PorytilesPrimaryTest_Door_Gym,                DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_Gym, sDoorAnimPalettes_Gym},
-    {METATILE_PorytilesPrimaryTest_Door_PokeMart,           DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_PokeMart, sDoorAnimPalettes_PokeMart},    
+    {METATILE_PorytilesPrimaryTest_Door_PokeMart,           DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_PokeMart, sDoorAnimPalettes_PokeMart_New},    
     {},
 };
 
@@ -324,16 +327,16 @@ static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 
     if (gfx->size == 2)
     {
         // Top left metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 0, &paletteNums[0]);
-        DrawDoorMetatileAt(x, y - 1, &tiles[8]);
+        // BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 0, &paletteNums[0]);
+        // DrawDoorMetatileAt(x, y - 1, &tiles[8]);
 
         // Bottom left metatile
         BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 4, &paletteNums[4]);
         DrawDoorMetatileAt(x, y, &tiles[8]);
 
         // Top right metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 8, &paletteNums[0]);
-        DrawDoorMetatileAt(x + 1, y - 1, &tiles[8]);
+        // BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 8, &paletteNums[0]);
+        // DrawDoorMetatileAt(x + 1, y - 1, &tiles[8]);
 
         // Bottom right metatile
         BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 12, &paletteNums[4]);
@@ -342,8 +345,8 @@ static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 
     else
     {
         // Top metatile
-        BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1 + 0, &paletteNums[0]);
-        DrawDoorMetatileAt(x, y - 1, &tiles[0]);
+        // BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1 + 0, &paletteNums[0]);
+        // DrawDoorMetatileAt(x, y - 1, &tiles[0]);
 
         // Bottom metatile
         BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1 + 4, &paletteNums[4]);
