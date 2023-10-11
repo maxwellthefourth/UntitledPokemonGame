@@ -72,6 +72,7 @@ u8 gLinkVSyncDisabled;
 u32 IntrMain_Buffer[0x200];
 s8 gPcmDmaCounter;
 void *gAgbMainLoop_sp;
+static EWRAM_DATA u16 timeCheck = 0;
 
 static EWRAM_DATA u16 sTrainerId = 0;
 
@@ -173,6 +174,17 @@ void AgbMainLoop(void)
         PlayTimeCounter_Update();
         MapMusicMain();
         WaitForVBlank();
+
+        if (timeCheck >= 300) // 2 hours irl = 24 hours in game
+        {
+            AdvanceRealtimeClock(0, 1);
+            timeCheck = 0;
+        }
+        else
+        {
+            timeCheck++;
+        }
+
     }
 }
 

@@ -1,7 +1,9 @@
 #include "global.h"
+#include "event_data.h"
 #include "rtc.h"
 #include "string_util.h"
 #include "text.h"
+#include "constants/flags.h"
 
 // iwram bss
 static u16 sErrorStatus;
@@ -129,6 +131,13 @@ void RtcGetInfo(struct SiiRtcInfo *rtc)
         *rtc = sRtcDummy;
     else
         RtcGetRawInfo(rtc);
+}
+
+void RtcGetTime(struct SiiRtcInfo *rtc)
+{
+    RtcDisableInterrupts();
+    SiiRtcGetTime(rtc);
+    RtcRestoreInterrupts();
 }
 
 void RtcGetDateTime(struct SiiRtcInfo *rtc)
@@ -267,6 +276,7 @@ void RtcCalcTimeDifference(struct SiiRtcInfo *rtc, struct Time *result, struct T
     result->minutes = ConvertBcdToBinary(rtc->minute) - t->minutes;
     result->hours = ConvertBcdToBinary(rtc->hour) - t->hours;
     result->days = days - t->days;
+    result->dayOfWeek = ConvertBcdToBinary(rtc->dayOfWeek) - t->dayOfWeek;
 
     if (result->seconds < 0)
     {
@@ -284,12 +294,34 @@ void RtcCalcTimeDifference(struct SiiRtcInfo *rtc, struct Time *result, struct T
     {
         result->hours += 24;
         --result->days;
+        --result->dayOfWeek;
+    }
+
+    if (result->dayOfWeek < 0)
+    {
+        result->dayOfWeek += 7;
     }
 }
 
 void RtcCalcLocalTime(void)
 {
     RtcGetInfo(&sRtc);
+    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+}
+
+void RtcCalcLocalTimeFast(void)
+{
+    if (sErrorStatus & RTC_ERR_FLAG_MASK)
+    {
+        sRtc = sRtcDummy;
+    }
+    else
+    {
+        RtcGetStatus(&sRtc);
+        RtcDisableInterrupts();
+        SiiRtcGetTime(&sRtc);
+        RtcRestoreInterrupts();
+    }
     RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
 }
 
@@ -308,12 +340,22 @@ void RtcCalcLocalTimeOffset(s32 days, s32 hours, s32 minutes, s32 seconds)
     RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
 }
 
+void RtcSetDayOfWeek(s8 dayOfWeek)
+{
+    // calc local time so we have an up-to-date time offset before recalculating offset
+    RtcCalcLocalTime();
+    gLocalTime.dayOfWeek = dayOfWeek;
+    RtcGetInfo(&sRtc);
+    RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
+}
+
 void CalcTimeDifference(struct Time *result, struct Time *t1, struct Time *t2)
 {
     result->seconds = t2->seconds - t1->seconds;
     result->minutes = t2->minutes - t1->minutes;
     result->hours = t2->hours - t1->hours;
     result->days = t2->days - t1->days;
+    result->dayOfWeek = t2->dayOfWeek - t1->dayOfWeek;
 
     if (result->seconds < 0)
     {
@@ -331,6 +373,12 @@ void CalcTimeDifference(struct Time *result, struct Time *t1, struct Time *t2)
     {
         result->hours += 24;
         --result->days;
+        --result->dayOfWeek;
+    }
+
+    if (result->dayOfWeek < 0)
+    {
+        result->dayOfWeek += 7;
     }
 }
 
@@ -345,18 +393,118 @@ u32 RtcGetLocalDayCount(void)
     return RtcGetDayCount(&sRtc);
 }
 
-void RtcCalcLocalTimeFast(void)
+u32 GetTotalMinutes(struct Time *time)
 {
-    if (sErrorStatus & RTC_ERR_FLAG_MASK)
+    return time->days * 1440 + time->hours * 60 + time->minutes;
+}
+u32 GetTotalSeconds(struct Time *time)
+{
+    return time->days * 86400 + time->hours * 3600 + time->minutes * 60 + time->seconds;
+}
+void SwitchDSTMode(void)
+{
     {
-        sRtc = sRtcDummy;
+        if (gLocalTime.hours < 23)
+        {
+            RtcCalcLocalTime();
+            gLocalTime.hours++;
+            RtcGetInfo(&sRtc);
+            RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
+        }
+    }
+}
+void AdvanceRealtimeClock(int hours, int minutes)
+{
+    // Calculate local time
+    RtcGetInfo(&sRtc);
+    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+    
+    // Advance by the requested amounts
+    gLocalTime.hours += hours;
+    gLocalTime.minutes += minutes;
+    
+    // Make sure local time is within expected results
+    while (gLocalTime.minutes >= 60)
+    {
+        gLocalTime.minutes -= 60;
+        ++gLocalTime.hours;
+    }
+    
+    while (gLocalTime.hours >= 24)
+    {
+        gLocalTime.hours -= 24;
+        ++gLocalTime.days;
+        ++gLocalTime.dayOfWeek;
+    }
+    
+    while (gLocalTime.dayOfWeek >= 7)
+    {
+        gLocalTime.dayOfWeek -= 7;
+    }
+    
+    // Set the offset back to the save block
+    RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
+}
+void AdvanceTimeToNextMorning()
+{
+    int hours, minutes;
+    
+    // Calculate local time
+    RtcGetInfo(&sRtc);
+    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+    
+    if (gLocalTime.hours < 10)
+    {
+        hours = 10 - gLocalTime.hours;
     }
     else
     {
-        RtcGetStatus(&sRtc);
-        RtcDisableInterrupts();
-        SiiRtcGetTime(&sRtc);
-        RtcRestoreInterrupts();
+        hours = 34 - gLocalTime.hours;
     }
+    gLocalTime.hours += hours;
+    gLocalTime.minutes = 0;
+    
+    while (gLocalTime.hours >= 24)
+    {
+        gLocalTime.hours -= 24;
+        ++gLocalTime.days;
+        ++gLocalTime.dayOfWeek;
+    }
+    
+    while (gLocalTime.dayOfWeek >= 7)
+    {
+        gLocalTime.dayOfWeek -= 7;
+    } 
+    
+    // Set the offset back to the save block
+    RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
+}
+void AdvanceTimeToNextMondayMorning()
+{
+    int hours, minutes;
+    
+    // Calculate local time
+    RtcGetInfo(&sRtc);
     RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+    
+    if (gLocalTime.hours < 10)
+    {
+        hours = 10 - gLocalTime.hours;
+    }
+    else
+    {
+        hours = 34 - gLocalTime.hours;
+    }
+    gLocalTime.hours += hours;
+    gLocalTime.minutes = 0;
+    
+    while (gLocalTime.hours >= 24)
+    {
+        gLocalTime.hours -= 24;
+        ++gLocalTime.days;
+    }
+    gLocalTime.dayOfWeek = 1;
+    
+    // Set the offset back to the save block
+    RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
 }
