@@ -55,6 +55,7 @@
 #include "constants/union_room.h"
 #include "constants/vars.h"
 #include "constants/weather.h"
+#include "constants/follow_me.h"
 #include "constants/quests.h"
 #include "constants/day_night.h"
 	.include "asm/macros.inc"
