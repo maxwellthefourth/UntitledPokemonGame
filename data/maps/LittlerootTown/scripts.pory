@@ -22,6 +22,21 @@ script LittlerootTown_EventScript_NewSign {
     releaseall
 }
 
+script LittlerootTown_EventScript_FollowMeTest {
+	lockall
+	faceplayer
+	loadword(0, NewScript)
+	setfollower(9, 0x100)
+	releaseall
+}
+
+script NewScript {
+	lockall
+	faceplayer
+	msgbox("Hello!")
+	releaseall
+}
+
 text TestText {
     "Whatup, bitch!"
 }

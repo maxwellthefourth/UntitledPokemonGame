@@ -18,6 +18,20 @@ LittlerootTown_EventScript_NewSign_2:
 	goto LittlerootTown_EventScript_NewSign_1
 
 
+LittlerootTown_EventScript_FollowMeTest::
+	lockall
+	faceplayer
+	loadword 0, NewScript
+	setfollower 9, 0x100
+	releaseall
+	return
+
+
+NewScript::
+	msgbox NewScript_Text_0
+	return
+
+
 .set LOCALID_TWIN, 1
 .set LOCALID_MOM, 4
 .set LOCALID_RIVAL, 7
@@ -1046,6 +1060,9 @@ LittlerootTown_EventScript_NewSign_Text_0:
 LittlerootTown_EventScript_NewSign_Text_1:
 	.string "Hey again! You've read this sign\n"
 	.string "{STR_VAR_1} times!$"
+
+NewScript_Text_0:
+	.string "Hello!$"
 
 TestText::
 	.string "Whatup, bitch!$"
