@@ -2702,7 +2702,6 @@ static bool32 ReturnToFieldLocal(u8 *state)
     #endif
         
         TryLoadTrainerHillEReaderPalette();
-        FollowMe_BindToSurbBlobOnReloadScreen();
         (*state)++;
         break;
     case 2:

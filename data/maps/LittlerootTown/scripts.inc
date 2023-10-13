@@ -28,7 +28,10 @@ LittlerootTown_EventScript_FollowMeTest::
 
 
 NewScript::
+	lockall
+	faceplayer
 	msgbox NewScript_Text_0
+	releaseall
 	return
 
 

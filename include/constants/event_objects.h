@@ -939,8 +939,8 @@
 #define OBJ_EVENT_GFX_FLOATZEL                   657
 #define OBJ_EVENT_GFX_CHERUBI                    658
 #define OBJ_EVENT_GFX_CHERRIM                    659
-#define OBJ_EVENT_GFX_SHELLOS                    660
-#define OBJ_EVENT_GFX_GASTRODON                  661
+#define OBJ_EVENT_GFX_SHELLOS_WEST               660
+#define OBJ_EVENT_GFX_GASTRODON_WEST             661
 #define OBJ_EVENT_GFX_AMBIPOM                    662
 #define OBJ_EVENT_GFX_DRIFLOON                   663
 #define OBJ_EVENT_GFX_DRIFBLIM                   664
@@ -991,7 +991,7 @@
 #define OBJ_EVENT_GFX_GLACEON                    709
 #define OBJ_EVENT_GFX_GLISCOR                    710
 #define OBJ_EVENT_GFX_MAMOSWINE                  711
-#define OBJ_EVENT_GFX_PORYGON-Z                  712
+#define OBJ_EVENT_GFX_PORYGONZ                   712
 #define OBJ_EVENT_GFX_GALLADE                    713
 #define OBJ_EVENT_GFX_PROBOPASS                  714
 #define OBJ_EVENT_GFX_DUSKNOIR                   715

@@ -1681,8 +1681,6 @@ static void CreateStopSurfingTask(u8 direction)
     taskId = CreateTask(Task_StopSurfingInit, 0xFF);
     gTasks[taskId].data[0] = direction;
     Task_StopSurfingInit(taskId);
-    
-    PrepareFollowerDismountSurf();
 }
 
 static void Task_StopSurfingInit(u8 taskId)
