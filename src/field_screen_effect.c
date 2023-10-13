@@ -27,6 +27,7 @@
 #include "sound.h"
 #include "start_menu.h"
 #include "task.h"
+#include "follow_me.h"
 #include "text.h"
 #include "follow_me.h"
 #include "constants/event_object_movement.h"
@@ -274,7 +275,7 @@ void FieldCB_DefaultWarpExit(void)
     Overworld_PlaySpecialMapMusic();
     WarpFadeInScreen();
     SetUpWarpExitTask();
-    FollowMe_WarpSetEnd();    
+    FollowMe_WarpSetEnd();
     LockPlayerFieldControls();
 }
 
@@ -344,18 +345,26 @@ static void Task_ExitDoor(u8 taskId)
         if (IsPlayerStandingStill())
         {
             u8 objEventId;
-            task->data[1] = FieldAnimateDoorClose(*x, *y);
+            
+        #if FAST_FOLLOWERS == TRUE
+            if (!gSaveBlock2Ptr->follower.inProgress)
+        #endif
+                task->data[1] = FieldAnimateDoorClose(*x, *y);
+            
             objEventId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
             ObjectEventClearHeldMovementIfFinished(&gObjectEvents[objEventId]);
             task->tState = 3;
         }
         break;
     case 3:
+    #if FAST_FOLLOWERS == TRUE
+        if (gSaveBlock2Ptr->follower.inProgress || task->data[1] < 0 || gTasks[task->data[1]].isActive != TRUE)
+    #else
         if (task->data[1] < 0 || gTasks[task->data[1]].isActive != TRUE)
+    #endif
         {
             FollowMe_SetIndicatorToComeOutDoor();
             FollowMe_WarpSetEnd();
-            
             UnfreezeObjectEvents();
             task->tState = 4;
         }
@@ -363,6 +372,12 @@ static void Task_ExitDoor(u8 taskId)
     case 4:
         UnlockPlayerFieldControls();
         DestroyTask(taskId);
+        
+    #if FAST_FOLLOWERS == TRUE
+        if (gSaveBlock2Ptr->follower.inProgress)
+            FlagSet(FLAG_FOLLOWER_IN_BUILDING);
+    #endif
+        
         break;
     }
 }
@@ -397,7 +412,6 @@ static void Task_ExitNonAnimDoor(u8 taskId)
         {
             FollowMe_SetIndicatorToComeOutDoor();
             FollowMe_WarpSetEnd();
-            
             UnfreezeObjectEvents();
             task->tState = 3;
         }
@@ -422,6 +436,11 @@ static void Task_ExitNonDoor(u8 taskId)
         if (WaitForWeatherFadeIn())
         {
             UnfreezeObjectEvents();
+            
+            // Account for follower exiting pokeball after scripted warp
+            if (gSaveBlock2Ptr->follower.createSurfBlob != 2)
+                gSaveBlock2Ptr->follower.comeOutDoorStairs = 2;
+
             UnlockPlayerFieldControls();
             DestroyTask(taskId);
         }
@@ -681,61 +700,6 @@ void Task_WarpAndLoadMap(u8 taskId)
         break;
     }
 }
-
-/*
-static void Task_DoDoorWarp(u8 taskId)
-{
-    struct Task *task = &gTasks[taskId];
-    s16 *x = &task->data[2];
-    s16 *y = &task->data[3];
-
-    switch (task->tState)
-    {
-    case 0:
-        FreezeObjectEvents();
-        PlayerGetDestCoords(x, y);
-        PlaySE(GetDoorSoundEffect(*x, *y - 1));
-        task->data[1] = FieldAnimateDoorOpen(*x, *y - 1);
-        task->tState = 1;
-        break;
-    case 1:
-        if (task->data[1] < 0 || gTasks[task->data[1]].isActive != TRUE)
-        {
-            u8 objEventId;
-            objEventId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
-            ObjectEventClearHeldMovementIfActive(&gObjectEvents[objEventId]);
-            objEventId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
-            ObjectEventSetHeldMovement(&gObjectEvents[objEventId], MOVEMENT_ACTION_WALK_NORMAL_UP);
-            task->tState = 2;
-        }
-        break;
-    case 2:
-        if (IsPlayerStandingStill())
-        {
-            u8 objEventId;
-            task->data[1] = FieldAnimateDoorClose(*x, *y - 1);
-            objEventId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
-            ObjectEventClearHeldMovementIfFinished(&gObjectEvents[objEventId]);
-            SetPlayerVisibility(FALSE);
-            task->tState = 3;
-        }
-        break;
-    case 3:
-        if (task->data[1] < 0 || gTasks[task->data[1]].isActive != TRUE)
-        {
-            task->tState = 4;
-        }
-        break;
-    case 4:
-        TryFadeOutOldMapMusic();
-        WarpFadeOutScreen();
-        PlayRainStoppingSoundEffect();
-        task->tState = 0;
-        task->func = Task_WarpAndLoadMap;
-        break;
-    }
-}
-*/
 
 static void Task_DoContestHallWarp(u8 taskId)
 {
@@ -1020,8 +984,7 @@ static void Task_SpinEnterWarp(u8 taskId)
     case 1:
         if (WaitForWeatherFadeIn() && IsPlayerSpinEntranceActive() != TRUE)
         {
-            FollowMe_WarpSetEnd();
-            
+            //FollowMe_WarpSetEnd();
             UnfreezeObjectEvents();
             UnlockPlayerFieldControls();
             DestroyTask(taskId);

@@ -475,4 +475,3 @@ u8* ReadWord(u8 index)
     
     return (T1_READ_PTR(&ctx->data[index]));
 }
-

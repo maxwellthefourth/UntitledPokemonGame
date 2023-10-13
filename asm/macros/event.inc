@@ -1758,13 +1758,13 @@
     .endm
 
     .macro questmenu case:req, questId:req
-    .byte 0xe3
+    .byte 0xe7
     .byte \case
     .byte \questId
     .endm
 
     .macro subquestmenu case:req, parentId:req, childId:req
-    .byte 0xe4
+    .byte 0xe8
     .byte \case
     .2byte \parentId
     .2byte \childId
@@ -1772,7 +1772,7 @@
 
     @ Check the quest state and return a number associated with quest state
     .macro returnqueststate questId:req
-    .byte 0xe5
+    .byte 0xe9
     .byte \questId
     .endm
     
@@ -2118,6 +2118,34 @@
 	setvar VAR_0x8006, \item
 	special CreateEnemyEventMon
 	.endm
+
+	.macro pokemonfaceplayer objectId=254
+	setvar VAR_UNUSED_0x8014, \objectId
+	callnative ScrCmd_pokemonfaceplayer
+	.endm
+
+	.macro updatefollowerpokemongraphic
+	setvar VAR_UNUSED_0x8014, 1
+	callnative UpdateFollowerPokemonGraphic
+	.endm
+
+	.macro hidefollower
+	callnative HideFollower
+	.endm
+
+	.macro showfollower
+	callnative ShowFollower
+	.endm
+    
+    .macro followerintopokeball
+    setvar VAR_UNUSED_0x8014, 0
+    callnative FollowerIntoPokeball
+    .endm
+    
+    .macro setfollowerwarppos pos:req
+    setvar VAR_RESULT, \pos
+    callnative SetFollowerWarpPosition
+    .endm
 
 	@ Set up a totem boost for the next battle.
 	@ 'battler' is the position of the mon you want to gain a boost. see B_POSITION_xx in include/constants/battle.h.
