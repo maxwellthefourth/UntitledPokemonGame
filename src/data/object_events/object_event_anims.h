@@ -1145,28 +1145,28 @@ static const union AffineAnimCmd *const sAffineAnimTable_KyogreGroudon[] = {
 
 const union AnimCmd gObjectEventImageAnim_FaceSouth_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(0, 14),
-    ANIMCMD_FRAME(0, 14),
-    ANIMCMD_FRAME(1, 14),
-    ANIMCMD_FRAME(1, 14),
+    ANIMCMD_FRAME(0, 28),
+    ANIMCMD_FRAME(0, 28),
+    ANIMCMD_FRAME(1, 28),
+    ANIMCMD_FRAME(1, 28),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_FaceNorth_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(2, 14),
-    ANIMCMD_FRAME(2, 14),
-    ANIMCMD_FRAME(3, 14),
-    ANIMCMD_FRAME(3, 14),
+    ANIMCMD_FRAME(2, 28),
+    ANIMCMD_FRAME(2, 28),
+    ANIMCMD_FRAME(3, 28),
+    ANIMCMD_FRAME(3, 28),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_FaceWest_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(4, 14),
-    ANIMCMD_FRAME(4, 14),
-    ANIMCMD_FRAME(5, 14),
-    ANIMCMD_FRAME(5, 14),
+    ANIMCMD_FRAME(4, 28),
+    ANIMCMD_FRAME(4, 28),
+    ANIMCMD_FRAME(5, 28),
+    ANIMCMD_FRAME(5, 28),
     ANIMCMD_JUMP(0),
 };
 
@@ -1181,28 +1181,28 @@ const union AnimCmd gObjectEventImageAnim_FaceEast_FollowingPokemon[] =
 
 const union AnimCmd gObjectEventImageAnim_WalkSouth_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(0, 8),
-    ANIMCMD_FRAME(0, 8),
-    ANIMCMD_FRAME(1, 8),
-    ANIMCMD_FRAME(1, 8),
+    ANIMCMD_FRAME(0, 16),
+    ANIMCMD_FRAME(0, 16),
+    ANIMCMD_FRAME(1, 16),
+    ANIMCMD_FRAME(1, 16),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkNorth_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(2, 8),
-    ANIMCMD_FRAME(2, 8),
-    ANIMCMD_FRAME(3, 8),
-    ANIMCMD_FRAME(3, 8),
+    ANIMCMD_FRAME(2, 16),
+    ANIMCMD_FRAME(2, 16),
+    ANIMCMD_FRAME(3, 16),
+    ANIMCMD_FRAME(3, 16),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkWest_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(4, 8),
-    ANIMCMD_FRAME(4, 8),
-    ANIMCMD_FRAME(5, 8),
-    ANIMCMD_FRAME(5, 8),
+    ANIMCMD_FRAME(4, 16),
+    ANIMCMD_FRAME(4, 16),
+    ANIMCMD_FRAME(5, 16),
+    ANIMCMD_FRAME(5, 16),
     ANIMCMD_JUMP(0),
 };
 
@@ -1217,28 +1217,28 @@ const union AnimCmd gObjectEventImageAnim_WalkEast_FollowingPokemon[] =
 
 const union AnimCmd gObjectEventImageAnim_WalkSouthFast_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(0, 6),
-    ANIMCMD_FRAME(0, 6),
-    ANIMCMD_FRAME(1, 6),
-    ANIMCMD_FRAME(1, 6),
+    ANIMCMD_FRAME(0, 12),
+    ANIMCMD_FRAME(0, 12),
+    ANIMCMD_FRAME(1, 12),
+    ANIMCMD_FRAME(1, 12),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkNorthFast_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(2, 6),
-    ANIMCMD_FRAME(2, 6),
-    ANIMCMD_FRAME(3, 6),
-    ANIMCMD_FRAME(3, 6),
+    ANIMCMD_FRAME(2, 12),
+    ANIMCMD_FRAME(2, 12),
+    ANIMCMD_FRAME(3, 12),
+    ANIMCMD_FRAME(3, 12),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkWestFast_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(4, 6),
-    ANIMCMD_FRAME(4, 6),
-    ANIMCMD_FRAME(5, 6),
-    ANIMCMD_FRAME(5, 6),
+    ANIMCMD_FRAME(4, 12),
+    ANIMCMD_FRAME(4, 12),
+    ANIMCMD_FRAME(5, 12),
+    ANIMCMD_FRAME(5, 12),
     ANIMCMD_JUMP(0),
 };
 
@@ -1253,28 +1253,28 @@ const union AnimCmd gObjectEventImageAnim_WalkEastFast_FollowingPokemon[] =
 
 const union AnimCmd gObjectEventImageAnim_WalkSouthFaster_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(1, 8),
+    ANIMCMD_FRAME(1, 8),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkNorthFaster_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(3, 4),
-    ANIMCMD_FRAME(3, 4),
+    ANIMCMD_FRAME(2, 8),
+    ANIMCMD_FRAME(2, 8),
+    ANIMCMD_FRAME(3, 8),
+    ANIMCMD_FRAME(3, 8),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkWestFaster_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(4, 4),
-    ANIMCMD_FRAME(4, 4),
-    ANIMCMD_FRAME(5, 4),
-    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(5, 8),
+    ANIMCMD_FRAME(5, 8),
     ANIMCMD_JUMP(0),
 };
 
@@ -1289,28 +1289,28 @@ const union AnimCmd gObjectEventImageAnim_WalkEastFaster_FollowingPokemon[] =
 
 const union AnimCmd gObjectEventImageAnim_WalkSouthFastest_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(0, 2),
-    ANIMCMD_FRAME(0, 2),
-    ANIMCMD_FRAME(1, 2),
-    ANIMCMD_FRAME(1, 2),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(1, 4),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkNorthFastest_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(2, 2),
-    ANIMCMD_FRAME(2, 2),
-    ANIMCMD_FRAME(3, 2),
-    ANIMCMD_FRAME(3, 2),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(3, 4),
+    ANIMCMD_FRAME(3, 4),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkWestFastest_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(4, 2),
-    ANIMCMD_FRAME(4, 2),
-    ANIMCMD_FRAME(5, 2),
-    ANIMCMD_FRAME(5, 2),
+    ANIMCMD_FRAME(4, 4),
+    ANIMCMD_FRAME(4, 4),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(5, 4),
     ANIMCMD_JUMP(0),
 };
 
@@ -1359,46 +1359,46 @@ const union AnimCmd *const gObjectEventImageAnimTable_FollowingPokemon[] = {
 
 const union AnimCmd gObjectEventImageAnim_FaceEast_Unique_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(6, 14),
-    ANIMCMD_FRAME(6, 14),
-    ANIMCMD_FRAME(7, 14),
-    ANIMCMD_FRAME(7, 14),
+    ANIMCMD_FRAME(6, 28),
+    ANIMCMD_FRAME(6, 28),
+    ANIMCMD_FRAME(7, 28),
+    ANIMCMD_FRAME(7, 28),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkEast_Unique_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(6, 8),
-    ANIMCMD_FRAME(6, 8),
-    ANIMCMD_FRAME(7, 8),
-    ANIMCMD_FRAME(7, 8),
+    ANIMCMD_FRAME(6, 16),
+    ANIMCMD_FRAME(6, 16),
+    ANIMCMD_FRAME(7, 16),
+    ANIMCMD_FRAME(7, 16),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkEastFast_Unique_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(6, 6),
-    ANIMCMD_FRAME(6, 6),
-    ANIMCMD_FRAME(7, 6),
-    ANIMCMD_FRAME(7, 6),
+    ANIMCMD_FRAME(6, 12),
+    ANIMCMD_FRAME(6, 12),
+    ANIMCMD_FRAME(7, 12),
+    ANIMCMD_FRAME(7, 12),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkEastFaster_Unique_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(6, 4),
-    ANIMCMD_FRAME(6, 4),
-    ANIMCMD_FRAME(7, 4),
-    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(6, 8),
+    ANIMCMD_FRAME(6, 8),
+    ANIMCMD_FRAME(7, 8),
+    ANIMCMD_FRAME(7, 8),
     ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gObjectEventImageAnim_WalkEastFastest_Unique_FollowingPokemon[] =
 {
-    ANIMCMD_FRAME(6, 2),
-    ANIMCMD_FRAME(6, 2),
-    ANIMCMD_FRAME(7, 2),
-    ANIMCMD_FRAME(7, 2),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(7, 4),
     ANIMCMD_JUMP(0),
 };
 

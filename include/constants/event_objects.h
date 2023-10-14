@@ -1038,9 +1038,11 @@
 #define OBJ_EVENT_GFX_PARK_BALL                  755
 #define OBJ_EVENT_GFX_CHERISH_BALL               756
 #define OBJ_EVENT_GFX_EXPANDING_SPARKLE          757
+
+#define OBJ_EVENT_GFX_FRIEND                     758
 #endif
 
-#define NUM_OBJ_EVENT_GFX                        758
+#define NUM_OBJ_EVENT_GFX                        759
 
 // These are dynamic object gfx ids.
 // They correspond with the values of the VAR_OBJ_GFX_ID_X vars.

@@ -836,6 +836,7 @@ static const u8 FollowerSparkleCoords[][6] =
     {17, 11, 14, 11, 14, 11}, // Rotom (Mow)
     {31, 20, 31, 21, 37, 20}, // Giratina (Origin)
     {16, 10, 16, 11, 10, 11}, // Shaymin (Sky)
+    {15, 12, 15, 12, 10, 12}, // Friend (based on Drifloon)
 };
 
 static const struct WarpData sDummyWarpData =
@@ -3957,17 +3958,17 @@ void UpdateFollowerPokemonGraphic(void)
 {
     // Loaded in case the player changed the species of the Pokemon in the lead of the party.
     // If so, the following Pokemon needs to change.
-    u16 leadMonGraphicId = GetMonData(&gPlayerParty[GetLeadMonNotFaintedIndex()], MON_DATA_SPECIES, NULL) + OBJ_EVENT_GFX_BULBASAUR - 1;
+    u16 friendMonId = 758; // see event_objects.h
     struct ObjectEvent *follower = &gObjectEvents[gSaveBlock2Ptr->follower.objId];
 
-    if(gSaveBlock2Ptr->follower.inProgress && leadMonGraphicId != gSaveBlock2Ptr->follower.graphicsId)
+    if(gSaveBlock2Ptr->follower.inProgress && friendMonId != gSaveBlock2Ptr->follower.graphicsId)
     {
         // Sets the follower's graphic data to the proper following Pokemon graphic data
-        gSaveBlock2Ptr->follower.graphicsId = leadMonGraphicId;
+        gSaveBlock2Ptr->follower.graphicsId = friendMonId;
 
         // Sets the current follower object's graphic data to the proper data.
         // Necessary because, without it, the follower's sprite won't change until entering a loading zone.
-        follower->graphicsId = leadMonGraphicId;
+        follower->graphicsId = friendMonId;
 
         // Specifically for Pokemon Center, if lead Pokemon is revived, deletes old follower and creates new one
         if(gSpecialVar_Unused_0x8014 == 1)
@@ -3993,6 +3994,47 @@ void UpdateFollowerPokemonGraphic(void)
         }
     }
 }
+
+// void UpdateFollowerPokemonGraphic(void)
+// {
+//     // Loaded in case the player changed the species of the Pokemon in the lead of the party.
+//     // If so, the following Pokemon needs to change.
+//     u16 leadMonGraphicId = GetMonData(&gPlayerParty[GetLeadMonNotFaintedIndex()], MON_DATA_SPECIES, NULL) + OBJ_EVENT_GFX_BULBASAUR - 1;
+//     struct ObjectEvent *follower = &gObjectEvents[gSaveBlock2Ptr->follower.objId];
+
+//     if(gSaveBlock2Ptr->follower.inProgress && leadMonGraphicId != gSaveBlock2Ptr->follower.graphicsId)
+//     {
+//         // Sets the follower's graphic data to the proper following Pokemon graphic data
+//         gSaveBlock2Ptr->follower.graphicsId = leadMonGraphicId;
+
+//         // Sets the current follower object's graphic data to the proper data.
+//         // Necessary because, without it, the follower's sprite won't change until entering a loading zone.
+//         follower->graphicsId = leadMonGraphicId;
+
+//         // Specifically for Pokemon Center, if lead Pokemon is revived, deletes old follower and creates new one
+//         if(gSpecialVar_Unused_0x8014 == 1)
+//         {
+//             u8 newSpriteId;
+//             struct ObjectEventTemplate clone;
+//             struct ObjectEvent backupFollower = *follower;
+//             backupFollower.graphicsId = gSaveBlock2Ptr->follower.graphicsId;
+//             DestroySprite(&gSprites[gObjectEvents[gSaveBlock2Ptr->follower.objId].spriteId]);
+//             RemoveObjectEvent(&gObjectEvents[gSaveBlock2Ptr->follower.objId]);
+
+//             clone = *GetObjectEventTemplateByLocalIdAndMap(gSaveBlock2Ptr->follower.map.id, gSaveBlock2Ptr->follower.map.number, gSaveBlock2Ptr->follower.map.group);
+//             clone.graphicsId = gSaveBlock2Ptr->follower.graphicsId;;
+//             gSaveBlock2Ptr->follower.objId = TrySpawnObjectEventTemplate(&clone, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, clone.x, clone.y);
+
+//             follower = &gObjectEvents[gSaveBlock2Ptr->follower.objId];
+//             newSpriteId = follower->spriteId;
+//             *follower = backupFollower;
+//             follower->spriteId = newSpriteId;
+//             MoveObjectEventToMapCoords(follower, follower->currentCoords.x, follower->currentCoords.y);
+//             ObjectEventTurn(follower, follower->facingDirection);
+//             gSpecialVar_Unused_0x8014 = 0;
+//         }
+//     }
+// }
 
 static void SparkleCallback(struct Sprite *sprite)
 {    
@@ -4107,6 +4149,9 @@ static void SparklePokeballCallback(struct Sprite *sprite)
             graphicsId = gSaveBlock2Ptr->follower.graphicsId - OBJ_EVENT_GFX_BULBASAUR - 25;
         else
         #endif
+        if (gSaveBlock2Ptr->follower.graphicsId == 758)
+            graphicsId = gSaveBlock2Ptr->follower.graphicsId - 26 - OBJ_EVENT_GFX_BULBASAUR;
+        else
             graphicsId = gSaveBlock2Ptr->follower.graphicsId - OBJ_EVENT_GFX_BULBASAUR;
 
         switch(gObjectEvents[gPlayerAvatar.objectEventId].facingDirection)
@@ -4505,7 +4550,7 @@ void FollowerIntoPokeball(void)
     {
         gSaveBlock2Ptr->follower.comeOutDoorStairs = 0;
         gPlayerAvatar.preventStep = TRUE;
-        ObjectEventForceSetHeldMovement(&gObjectEvents[gSaveBlock2Ptr->follower.objId], MOVEMENT_ACTION_FOLLOWING_POKEMON_SHRINK);
+        ObjectEventForceSetHeldMovement(&gObjectEvents[gSaveBlock2Ptr->follower.objId], MOVEMENT_ACTION_FOLLOWING_POKEMON_SHRINK); // this is the thing
         gSpecialVar_Unused_0x8014 = 1;
     }
 }

@@ -263,8 +263,9 @@ void FollowMe(struct ObjectEvent* npc, u8 state, bool8 ignoreScriptActive)
     #else
         if (gSaveBlock2Ptr->follower.comeOutDoorStairs == 1)
         {
-            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)) {
                 gSaveBlock2Ptr->follower.comeOutDoorStairs = 0;
+            }
             else
             {
                 gPlayerAvatar.preventStep = TRUE;
@@ -282,8 +283,9 @@ void FollowMe(struct ObjectEvent* npc, u8 state, bool8 ignoreScriptActive)
         }
         
 		// This makes sure the follower is still invisible after diving or surfacing or on a bike
-		if(!(TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_UNDERWATER) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE)))
+		if(!(TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_UNDERWATER) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE))) {
 			follower->invisible = FALSE;
+        }
         MoveObjectEventToMapCoords(follower, player->currentCoords.x, player->currentCoords.y);
         ObjectEventTurn(follower, player->facingDirection); //The follower should be facing the same direction as the player when it comes out of hiding
 
@@ -301,12 +303,14 @@ void FollowMe(struct ObjectEvent* npc, u8 state, bool8 ignoreScriptActive)
 
     dir = DetermineFollowerDirection(player, follower);
 
-    if (dir == DIR_NONE)
+    if (dir == DIR_NONE) {
         goto RESET;
+    }
 	
     newState = DetermineFollowerState(follower, state, dir);
-    if (newState == MOVEMENT_INVALID)
+    if (newState == MOVEMENT_INVALID) {
         goto RESET;
+    }
 
     /*if (gSaveBlock2Ptr->follower.createSurfBlob == 1) //Get on Surf Blob
     {
@@ -1158,12 +1162,15 @@ void FollowMe_HandleBike(void)
     if (gSaveBlock2Ptr->follower.currentSprite == FOLLOWER_SPRITE_INDEX_SURF) //Follower is surfing
         return; //Sprite will automatically be adjusted when they finish surfing
 
-    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE && FollowerCanBike() && gSaveBlock2Ptr->follower.comeOutDoorStairs != 1) //Coming out door
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE && FollowerCanBike() && gSaveBlock2Ptr->follower.comeOutDoorStairs != 1) { //Coming out door
         SetFollowerSprite(FOLLOWER_SPRITE_INDEX_MACH_BIKE); //Mach Bike on
-    else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE && FollowerCanBike() && gSaveBlock2Ptr->follower.comeOutDoorStairs != 1) //Coming out door
+    }
+    else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE && FollowerCanBike() && gSaveBlock2Ptr->follower.comeOutDoorStairs != 1) { //Coming out door
         SetFollowerSprite(FOLLOWER_SPRITE_INDEX_ACRO_BIKE); //Acro Bike on
-    else
+    }
+    else {
         SetFollowerSprite(FOLLOWER_SPRITE_INDEX_NORMAL);
+    }
 }
 
 void FollowMe_HandleSprite(void)

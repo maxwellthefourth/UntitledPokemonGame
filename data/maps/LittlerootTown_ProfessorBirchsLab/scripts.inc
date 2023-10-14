@@ -1,3 +1,16 @@
+FollowerDialogue::
+	lockall
+	goto_if_unset FLAG_SIGN_READ, FollowerDialogue_2
+	msgbox FollowerDialogue_Text_1
+FollowerDialogue_1:
+	releaseall
+	end
+
+FollowerDialogue_2:
+	msgbox FollowerDialogue_Text_0
+	goto FollowerDialogue_1
+
+
 .set LOCALID_AIDE, 1
 .set LOCALID_BIRCH, 2
 .set LOCALID_RIVAL, 3
@@ -142,7 +155,8 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AgreeToSeeRival::
 	setvar VAR_BIRCH_LAB_STATE, 3
 	addobject 7
     hideobjectat 7, MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB
-	setfollower 7, 0x7E
+    loadword 0 FollowerDialogue
+	setfollower 7, 0x17E
 	updatefollowerpokemongraphic
 	releaseall
 	end
@@ -1004,3 +1018,10 @@ LittlerootTown_ProfessorBirchsLab_Text_ScottAboardSSTidalCall:
 	.string "we meet. I'll be waiting!\p"
 	.string "… … … … … …\n"
 	.string "… … … … … Click!$"
+
+FollowerDialogue_Text_0:
+	.string "Hello friend! I am following you on your\n"
+	.string "Pokemon journey.$"
+
+FollowerDialogue_Text_1:
+	.string "Hey again! Hope you're doing well.$"

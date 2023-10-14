@@ -1016,6 +1016,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_ARCEUS_ROCK             0xFA8
 #define OBJ_EVENT_PAL_TAG_ARCEUS_STEEL            0xFA7
 #define OBJ_EVENT_PAL_TAG_ARCEUS_WATER            0xFA6
+#define OBJ_EVENT_PAL_TAG_FRIEND                  0xFA5
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -1610,6 +1611,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Arceus_Rock,           OBJ_EVENT_PAL_TAG_ARCEUS_ROCK},
     {gObjectEventPal_Arceus_Steel,          OBJ_EVENT_PAL_TAG_ARCEUS_STEEL},
     {gObjectEventPal_Arceus_Water,          OBJ_EVENT_PAL_TAG_ARCEUS_WATER},
+    {gObjectEventPal_Friend,                OBJ_EVENT_PAL_TAG_FRIEND},
     #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE}, 
 #else
@@ -2995,7 +2997,7 @@ static void LoadObjectEventPaletteSet(u16 *paletteTags)
         LoadObjectEventPalette(paletteTags[i]);
 }
 
-// NOTE: Does not use LoadSpritePaletteDayNight because of naming screen
+// NOTE: Does not use LoadSpritePaletteDayNight because of naming screen <-- liar comment!
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette)
 {
     if (IndexOfSpritePaletteTag(spritePalette->tag) != 0xFF)
