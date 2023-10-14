@@ -143,9 +143,9 @@ extern const u16 gFogPalette[];
 
 enum
 {
-    COLOR_MAP_NONE,
-    COLOR_MAP_DARK_CONTRAST,
-    COLOR_MAP_CONTRAST,
+    GAMMA_NONE,
+    GAMMA_NORMAL,
+    GAMMA_ALT,
 };
 
 void UpdatePaletteGammaType(u8 index, u8 gammaType);

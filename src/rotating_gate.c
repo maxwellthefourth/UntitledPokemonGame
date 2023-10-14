@@ -746,16 +746,16 @@ static u8 RotatingGate_CreateGate(u8 gateId, s16 deltaX, s16 deltaY)
     x = gate->x + MAP_OFFSET;
     y = gate->y + MAP_OFFSET;
     
-    if (template.paletteTag != 0xFFFF)
-    {
-        LoadObjectEventPalette(template.paletteTag);
-        UpdatePaletteGammaType(IndexOfSpritePaletteTag(template.paletteTag), COLOR_MAP_CONTRAST);
-    }
+    // if (template.paletteTag != 0xFFFF)
+    // {
+    //     LoadObjectEventPalette(template.paletteTag);
+    //     UpdatePaletteGammaType(IndexOfSpritePaletteTag(template.paletteTag), COLOR_MAP_CONTRAST);
+    // }
 
     sprite = &gSprites[spriteId];
     sprite->data[0] = gateId;
     sprite->coordOffsetEnabled = 1;
-    sprite->oam.paletteNum = IndexOfSpritePaletteTag(template.paletteTag);
+    // sprite->oam.paletteNum = IndexOfSpritePaletteTag(template.paletteTag);
 
     GetMapCoordsFromSpritePos(x + deltaX, y + deltaY, &sprite->x, &sprite->y);
     RotatingGate_HideGatesOutsideViewport(sprite);
