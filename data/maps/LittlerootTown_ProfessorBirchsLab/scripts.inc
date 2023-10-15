@@ -1,5 +1,6 @@
 FollowerDialogue::
 	lockall
+	facefollower
 	goto_if_unset FLAG_SIGN_READ, FollowerDialogue_2
 	msgbox FollowerDialogue_Text_1
 FollowerDialogue_1:

@@ -1,5 +1,6 @@
 script FollowerDialogue {
     lockall
+	facefollower
     if (!flag(FLAG_SIGN_READ)) {
         msgbox(format("Hello friend! I am following you on your Pokemon journey."))
     } else {
