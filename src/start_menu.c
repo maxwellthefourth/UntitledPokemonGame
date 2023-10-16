@@ -483,6 +483,24 @@ static void ShowPyramidFloorWindow(void)
 
 #define CLOCK_WINDOW_WIDTH 70
 
+const u8 gText_Saturday[] = _("Sat. ");
+const u8 gText_Sunday[] = _("Sun. ");
+const u8 gText_Monday[] = _("Mon. ");
+const u8 gText_Tuesday[] = _("Tue. ");
+const u8 gText_Wednesday[] = _("Wed. ");
+const u8 gText_Thursday[] = _("Thu. ");
+const u8 gText_Friday[] = _("Fri. ");
+
+const u8 *const gDayNameStringsTable[7] = {
+    gText_Saturday,
+    gText_Sunday,
+    gText_Monday,
+    gText_Tuesday,
+    gText_Wednesday,
+    gText_Thursday,
+    gText_Friday,
+};
+
 static void ShowTimeWindow(void)
 {
     const u8 *suffix;
@@ -517,8 +535,9 @@ static void ShowTimeWindow(void)
         suffix = gText_PM;
     }
 
-    StringExpandPlaceholders(gStringVar4, gText_ContinueMenuTime);
-    AddTextPrinterParameterized(sStartClockWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL); // prints "time"
+    StringExpandPlaceholders(gStringVar4, gDayNameStringsTable[(gLocalTime.days % 7)]);
+    // StringExpandPlaceholders(gStringVar4, gText_ContinueMenuTime); // prints "time" word, from version before weekday was added and leaving it here in case anyone would prefer to use it
+    AddTextPrinterParameterized(sStartClockWindowId, 1, gStringVar4, 0, 1, 0xFF, NULL); 
 
     ptr = ConvertIntToDecimalStringN(gStringVar4, convertedHours, STR_CONV_MODE_LEFT_ALIGN, 3);
     *ptr = 0xF0;
@@ -536,7 +555,7 @@ static void RemoveExtraStartMenuWindows(void)
     if (GetSafariZoneFlag())
     {
         ClearStdWindowAndFrameToTransparent(sSafariBallsWindowId, FALSE);
-        CopyWindowToVram(sSafariBallsWindowId, COPYWIN_GFX);
+        // CopyWindowToVram(sSafariBallsWindowId, COPYWIN_GFX);
         RemoveWindow(sSafariBallsWindowId);
     }
     else if (InBattlePyramid())
@@ -622,9 +641,6 @@ static bool32 InitStartMenuStep(void)
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
     }
-
-    RemoveExtraStartMenuWindows();
-    ShowTimeWindow();
 
     return FALSE;
 }
@@ -746,6 +762,9 @@ static bool8 HandleStartMenuInput(void)
         HideStartMenu();
         return TRUE;
     }
+
+    RemoveExtraStartMenuWindows();
+    ShowTimeWindow();
 
     return FALSE;
 }

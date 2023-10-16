@@ -1791,14 +1791,15 @@ u32 LinkPlayerGetTrainerPicId(u32 multiplayerId)
     return trainerPicId;
 }
 
-static u32 PlayerGetTrainerBackPicId(void)
+static u32 PlayerGetTrainerBackPicId(void) //this
 {
     u32 trainerPicId;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
     else
-        trainerPicId = gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_BRENDAN;
+        trainerPicId = gCostumeBackPics[gSaveBlock2Ptr->playerCostume][gSaveBlock2Ptr->playerGender];
+        // trainerPicId = gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_BRENDAN;
 
     return trainerPicId;
 }
@@ -1840,7 +1841,7 @@ static void PlayerHandleDrawTrainerPic(u32 battler)
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId != TRAINER_STEVEN_PARTNER && gPartnerTrainerId < TRAINER_CUSTOM_PARTNER)
     {
-        trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
+        trainerPicId = gCostumeFrontPics[gSaveBlock2Ptr->playerCostume][gSaveBlock2Ptr->playerGender];
         isFrontPic = TRUE;
     }
     else // Use back pic in all the other usual circumstances.
@@ -2172,7 +2173,13 @@ static void PlayerHandleOneReturnValue_Duplicate(u32 battler)
 
 static void PlayerHandleIntroTrainerBallThrow(u32 battler)
 {
-    const u32 *trainerPal = gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data;
+    // LoadCompressedPalette(gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data, 0x100 + paletteNum * 16, 32);
+    // LoadCompressedPalette(gTrainerBackPicPaletteTable[gCostumeBackPics[gSaveBlock2Ptr->playerCostume][gSaveBlock2Ptr->playerGender]].data, 0x100 + paletteNum * 16, 32);
+    // const u32 *trainerPal = gTrainerBackPicPaletteTable[gSaveBlock2Ptr->playerGender].data;
+    const u32 *trainerPal = gTrainerBackPicPaletteTable[gCostumeBackPics[gSaveBlock2Ptr->playerCostume][gSaveBlock2Ptr->playerGender]].data;
+    DebugPrintf("gSaveBlock2Ptr->playerCostume: %d", gSaveBlock2Ptr->playerCostume);
+    DebugPrintf("gSaveBlock2Ptr->playerGender: %d", gSaveBlock2Ptr->playerGender);
+    DebugPrintf("trainerPal: %d", trainerPal);
     BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
 }
 

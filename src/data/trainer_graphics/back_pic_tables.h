@@ -56,6 +56,11 @@ const struct CompressedSpriteSheet gTrainerBackPicTable[] =
         .tag = TRAINER_BACK_PIC_STEVEN,
     },
 };
+    // [TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN] = {
+    //     .data = (const u32 *)gTrainerBackPic_RubySapphireBrendan,
+    //     .size = TRAINER_PIC_SIZE * ARRAY_COUNT(gTrainerBackPicTable_RubySapphireBrendan),
+    //     .tag = TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN,
+    // },
 
 #define TRAINER_BACK_PAL(trainerPic, pal) [TRAINER_BACK_PIC_##trainerPic] = {pal, TRAINER_BACK_PIC_##trainerPic}
 

@@ -14,7 +14,8 @@ LittlerootTown_EventScript_NewSign_2:
 	msgbox LittlerootTown_EventScript_NewSign_Text_0
 	setflag FLAG_SIGN_READ
 	setflag FLAG_SYS_QUEST_MENU_GET
-	openquestmenu
+	setvar VAR_TEMP_1, COSTUME_1
+	special SwapPlayersCostume
 	goto LittlerootTown_EventScript_NewSign_1
 
 

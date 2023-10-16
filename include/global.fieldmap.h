@@ -268,6 +268,8 @@ enum {
 #define PLAYER_AVATAR_FLAG_FORCED_MOVE  (1 << 6)
 #define PLAYER_AVATAR_FLAG_DASH         (1 << 7)
 
+#define PLAYER_AVATAR_FLAG_COUNT               8
+
 enum
 {
     ACRO_BIKE_NORMAL,
