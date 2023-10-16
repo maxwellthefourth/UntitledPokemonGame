@@ -1354,13 +1354,11 @@ void ItemUseOutOfBattle_Honey(u8 taskId)
 }
 
 void ItemUseOutOfBattle_Costume_Default(u8 taskId) {
-    if (!(GetPlayerCostumeId() == 0)) {
-        DebugPrintf("id: %d", GetPlayerCostumeId());
+    if (!(gSaveBlock2Ptr->playerCostume == 0)) {
         sItemUseOnFieldCB = ItemUseCB_Costume_Default;
         SetUpItemUseOnFieldCallback(taskId);
     }
     else {
-        DebugPrintf("id: %d", GetPlayerCostumeId());
         DisplayCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem, gText_AlreadyWearing);
     }
 }
@@ -1373,13 +1371,11 @@ static void ItemUseCB_Costume_Default(u8 taskId)
 }
 
 void ItemUseOutOfBattle_Costume_1(u8 taskId) { // look into pokeblock case?
-    if (!(GetPlayerCostumeId() == 1)) { // broken with registering -> might be fixed by switching pockets
-        DebugPrintf("id: %d", GetPlayerCostumeId());
+    if (!(gSaveBlock2Ptr->playerCostume == 1)) {
         sItemUseOnFieldCB = ItemUseCB_Costume_1;
         SetUpItemUseOnFieldCallback(taskId);
     }
     else {
-        DebugPrintf("id: %d", GetPlayerCostumeId());
         DisplayCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem, gText_AlreadyWearing);
     }
 }
