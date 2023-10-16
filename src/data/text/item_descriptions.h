@@ -3918,3 +3918,13 @@ static const u8 sBerserkGene[] = _(
     "Sharply boosts\n"
     "Attack, but causes\n"
     "lasting confusion.");
+
+static const u8 sCostumeDefaultDesc[] = _(
+    "Your classic,\n"
+    "everyday outfit.\n"
+    "Lookin' sharp!");
+
+static const u8 sCostume1Desc[] = _(
+    "A special outfit\n"
+    "for a special\n"
+    "trainer.");

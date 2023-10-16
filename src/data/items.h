@@ -9649,4 +9649,26 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .flingPower = 10,
     },
+
+    [ITEM_COSTUME_DEFAULT] =
+    {
+        .name = _("DefaultOutfit"),
+        .price = 0,
+        .description = sCostumeDefaultDesc,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Costume_Default,
+    },
+
+    [ITEM_COSTUME_1] =
+    {
+        .name = _("SpecialOutfit"),
+        .price = 0,
+        .description = sCostume1Desc,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Costume_1,
+    },
 };

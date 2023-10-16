@@ -590,6 +590,9 @@ extern const u8 BattleFrontier_OutsideEast_EventScript_WaterSudowoodo[];
 
 extern const u8 EventScript_SelectWithoutRegisteredItem[];
 
+extern const u8 EventScript_CostumeSwap_Default[];
+extern const u8 EventScript_CostumeSwap_1[];
+
 // overworld
 extern const u8 EventScript_WhiteOut[];
 extern const u8 EventScript_ResetMrBriney[];

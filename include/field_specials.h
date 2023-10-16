@@ -32,6 +32,7 @@ bool8 UsedPokemonCenterWarp(void);
 void ResetFanClub(void);
 bool8 ShouldShowBoxWasFullMessage(void);
 void SetPCBoxToSendMon(u8 boxId);
+void SwapPlayersCostume(void);
 u8 GetPlayerCostumeId(void);
 
 #endif // GUARD_FIELD_SPECIALS_H

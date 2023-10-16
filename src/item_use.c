@@ -18,6 +18,7 @@
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
+#include "field_specials.h"
 #include "fldeff.h"
 #include "item.h"
 #include "item_menu.h"
@@ -77,6 +78,8 @@ static void SetDistanceOfClosestHiddenItem(u8, s16, s16);
 static void CB2_OpenPokeblockFromBag(void);
 static void ItemUseOnFieldCB_Honey(u8 taskId);
 static bool32 CannotUseBagBattleItem(u16 itemId);
+static void ItemUseCB_Costume_Default(u8);
+static void ItemUseCB_Costume_1(u8);
 
 // EWRAM variables
 EWRAM_DATA static void(*sItemUseOnFieldCB)(u8 taskId) = NULL;
@@ -1348,6 +1351,44 @@ void ItemUseOutOfBattle_Honey(u8 taskId)
     gFieldCallback = FieldCB_UseItemOnField;
     gBagMenu->newScreenCallback = CB2_ReturnToField;
     Task_FadeAndCloseBagMenu(taskId);
+}
+
+void ItemUseOutOfBattle_Costume_Default(u8 taskId) {
+    if (!(GetPlayerCostumeId() == 0)) {
+        DebugPrintf("id: %d", GetPlayerCostumeId());
+        sItemUseOnFieldCB = ItemUseCB_Costume_Default;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+    else {
+        DebugPrintf("id: %d", GetPlayerCostumeId());
+        DisplayCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem, gText_AlreadyWearing);
+    }
+}
+
+static void ItemUseCB_Costume_Default(u8 taskId)
+{
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(EventScript_CostumeSwap_Default);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_Costume_1(u8 taskId) { // look into pokeblock case?
+    if (!(GetPlayerCostumeId() == 1)) { // broken with registering -> might be fixed by switching pockets
+        DebugPrintf("id: %d", GetPlayerCostumeId());
+        sItemUseOnFieldCB = ItemUseCB_Costume_1;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+    else {
+        DebugPrintf("id: %d", GetPlayerCostumeId());
+        DisplayCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem, gText_AlreadyWearing);
+    }
+}
+
+static void ItemUseCB_Costume_1(u8 taskId)
+{
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(EventScript_CostumeSwap_1);
+    DestroyTask(taskId);
 }
 
 void ItemUseOutOfBattle_CannotUse(u8 taskId)
