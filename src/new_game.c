@@ -46,6 +46,7 @@
 #include "union_room_chat.h"
 #include "quests.h"
 #include "constants/items.h"
+#include "constants/flags.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -97,6 +98,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+    FlagSet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
 }
 
 static void ClearPokedexFlags(void)
@@ -149,6 +151,7 @@ void ResetMenuAndMonGlobals(void)
 
 void NewGameInitData(void)
 {
+    bool8 typeEffectPrev = FlagGet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
@@ -211,6 +214,7 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItemSelect = ITEM_NONE;
     gSaveBlock1Ptr->registeredItemL = ITEM_NONE;
     gSaveBlock1Ptr->registeredItemR = ITEM_NONE;
+    typeEffectPrev ? FlagSet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW) : FlagClear(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
 }
 
 static void ResetMiniGamesRecords(void)
