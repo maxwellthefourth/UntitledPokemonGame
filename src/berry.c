@@ -95,6 +95,7 @@ static const u8 sBerryDescriptionPart1_Durin[] = _("Bitter to even look at. It i
 static const u8 sBerryDescriptionPart2_Durin[] = _("bitter, no one has ever eaten it as is.");
 static const u8 sBerryDescriptionPart1_Belue[] = _("It is glossy and looks delicious, but");
 static const u8 sBerryDescriptionPart2_Belue[] = _("it is awfully sour. Takes time to grow.");
+<<<<<<< HEAD
 static const u8 sBerryDescriptionPart1_Chilan[] = _("It can be made into a whistle that");
 static const u8 sBerryDescriptionPart2_Chilan[] = _("produces an indescribable sound.");
 static const u8 sBerryDescriptionPart1_Occa[] = _("Said to grow in the tropics once,");
@@ -131,6 +132,8 @@ static const u8 sBerryDescriptionPart1_Babiri[] = _("Very tough with a strong fl
 static const u8 sBerryDescriptionPart2_Babiri[] = _("was used to make medicine in the past.");
 static const u8 sBerryDescriptionPart1_Roseli[] = _("In nature, they grow in wide rings");
 static const u8 sBerryDescriptionPart2_Roseli[] = _("for reasons that are still unknown.");
+=======
+>>>>>>> asp/Decapitalization
 static const u8 sBerryDescriptionPart1_Liechi[] = _("A mysterious Berry. It is rumored to");
 static const u8 sBerryDescriptionPart2_Liechi[] = _("contain the power of the sea.");
 static const u8 sBerryDescriptionPart1_Ganlon[] = _("A mysterious Berry. It is rumored to");
@@ -1245,6 +1248,7 @@ const struct Berry gBerries[] =
     [ITEM_ENIGMA_BERRY - FIRST_BERRY_INDEX] =
     {
         .name = _("Enigma"),
+<<<<<<< HEAD
         .firmness = BERRY_FIRMNESS_HARD,
         .size = 155,
         .maxYield = 5,
@@ -1371,6 +1375,8 @@ const struct Berry gBerries[] =
     [ITEM_ENIGMA_BERRY_E_READER - FIRST_BERRY_INDEX] =
     {
         .name = _("Enigma"),
+=======
+>>>>>>> asp/Decapitalization
         .firmness = BERRY_FIRMNESS_UNKNOWN,
         .size = 0,
         .maxYield = 2,
