@@ -4503,6 +4503,73 @@ void ItemUseCB_BattleChooseMove(u8 taskId, TaskFunc task)
     gTasks[taskId].func = Task_HandleWhichMoveInput;
 }
 
+// void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
+// {
+//     u16 hp = 0;
+//     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+//     u16 item = gSpecialVar_ItemId;
+//     bool8 canHeal, cannotUse;
+//     u32 oldStatus = GetMonData(mon, MON_DATA_STATUS);
+
+//     if (NotUsingHPEVItemOnShedinja(mon, item) == FALSE)
+//     {
+//         cannotUse = TRUE;
+//     }
+//     else
+//     {
+//         canHeal = IsHPRecoveryItem(item);
+//         if (canHeal == TRUE)
+//         {
+//             hp = GetMonData(mon, MON_DATA_HP);
+//             if (hp == GetMonData(mon, MON_DATA_MAX_HP))
+//                 canHeal = FALSE;
+//         }
+//         cannotUse = ExecuteTableBasedItemEffect(mon, item, gPartyMenu.slotId, 0);
+//     }
+
+//     if (cannotUse != FALSE)
+//     {
+//         gPartyMenuUseExitCallback = FALSE;
+//         PlaySE(SE_SELECT);
+//         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+//         ScheduleBgCopyTilemapToVram(2);
+//         gTasks[taskId].func = task;
+//     }
+//     else
+//     {
+//         gPartyMenuUseExitCallback = TRUE;
+//         if (!IsItemFlute(item))
+//         {
+//             PlaySE(SE_USE_ITEM);
+//             if (gPartyMenu.action != PARTY_ACTION_REUSABLE_ITEM)
+//                 RemoveBagItem(item, 1);
+//         }
+//         else
+//         {
+//             PlaySE(SE_GLASS_FLUTE);
+//         }
+//         SetPartyMonAilmentGfx(mon, &sPartyMenuBoxes[gPartyMenu.slotId]);
+//         if (gSprites[sPartyMenuBoxes[gPartyMenu.slotId].statusSpriteId].invisible)
+//             DisplayPartyPokemonLevelCheck(mon, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+//         if (canHeal == TRUE)
+//         {
+//             if (hp == 0)
+//                 AnimatePartySlot(gPartyMenu.slotId, 1);
+//             PartyMenuModifyHP(taskId, gPartyMenu.slotId, 1, GetMonData(mon, MON_DATA_HP) - hp, Task_DisplayHPRestoredMessage);
+//             ResetHPTaskData(taskId, 0, hp);
+//             return;
+//         }
+//         else
+//         {
+//             GetMonNickname(mon, gStringVar1);
+//             GetMedicineItemEffectMessage(item, oldStatus);
+//             DisplayPartyMenuMessage(gStringVar4, TRUE);
+//             ScheduleBgCopyTilemapToVram(2);
+//             gTasks[taskId].func = task;
+//         }
+//     }
+// }
+
 void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
 {
     u16 hp = 0;
@@ -4533,7 +4600,11 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
         PlaySE(SE_SELECT);
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = task;
+        if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD)
+            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        else
+            gTasks[taskId].func = task;
+        return;
     }
     else
     {
@@ -4565,7 +4636,10 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
             GetMedicineItemEffectMessage(item, oldStatus);
             DisplayPartyMenuMessage(gStringVar4, TRUE);
             ScheduleBgCopyTilemapToVram(2);
-            gTasks[taskId].func = task;
+            if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(item, 1))
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            else
+                gTasks[taskId].func = task;
         }
     }
 }
@@ -4767,7 +4841,10 @@ static void Task_DisplayHPRestoredMessage(u8 taskId)
     DisplayPartyMenuMessage(gStringVar4, FALSE);
     ScheduleBgCopyTilemapToVram(2);
     HandleBattleLowHpMusicChange();
-    gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+    if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+    else
+        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 }
 
 static void Task_ClosePartyMenuAfterText(u8 taskId)
