@@ -25,9 +25,8 @@
 #define tSound data[4]
 #define tButtonMode data[5]
 #define tWindowFrameType data[6]
-#define tTypeEffect data[7]
-#define tFollower data[8]
-#define tDifficulty data[9]
+#define tAutoRun data[7]
+#define tTypeEffect data[8]
 
 enum
 {
@@ -44,9 +43,8 @@ enum
 // menu item page 2
 enum
 {
+    MENUITEM_AUTORUN,
     MENUITEM_TYPEEFFECT,
-    MENUITEM_FOLLOWER,
-    MENUITEM_DIFFICULTY,
     MENUITEM_CANCEL_PG2,
     MENUITEM_COUNT_PG2,
 };
@@ -66,9 +64,8 @@ enum
 #define YPOS_FRAMETYPE    (MENUITEM_FRAMETYPE * 16)
 
 //Pg2
+#define YPOS_AUTORUN      (MENUITEM_AUTORUN * 16)
 #define YPOS_TYPEEFFECT   (MENUITEM_TYPEEFFECT * 16)
-#define YPOS_FOLLOWER     (MENUITEM_FOLLOWER * 16)
-#define YPOS_DIFFICULTY   (MENUITEM_DIFFICULTY * 16)
 
 #define PAGE_COUNT  2
 
@@ -85,12 +82,10 @@ static u8 BattleScene_ProcessInput(u8 selection);
 static void BattleScene_DrawChoices(u8 selection);
 static u8 BattleStyle_ProcessInput(u8 selection);
 static void BattleStyle_DrawChoices(u8 selection);
+static u8 AutoRun_ProcessInput(u8 selection);
+static void AutoRun_DrawChoices(u8 selection);
 static u8 TypeEffect_ProcessInput(u8 selection);
 static void TypeEffect_DrawChoices(u8 selection);
-static u8 Follower_ProcessInput(u8 selection);
-static void Follower_DrawChoices(u8 selection);
-static u8 Difficulty_ProcessInput(u8 selection);
-static void Difficulty_DrawChoices(u8 selection);
 static u8 Sound_ProcessInput(u8 selection);
 static void Sound_DrawChoices(u8 selection);
 static u8 FrameType_ProcessInput(u8 selection);
@@ -121,9 +116,8 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 
 static const u8 *const sOptionMenuItemsNames_Pg2[MENUITEM_COUNT_PG2] =
 {
+    [MENUITEM_AUTORUN]     = gText_AutoRun,
     [MENUITEM_TYPEEFFECT]  = gText_TypeEffect,
-    [MENUITEM_FOLLOWER]    = gText_Follower,
-    [MENUITEM_DIFFICULTY]  = gText_Difficulty,
     [MENUITEM_CANCEL_PG2]  = gText_OptionMenuCancel,
 };
 
@@ -198,10 +192,10 @@ static void ReadAllCurrentSettings(u8 taskId)
     gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
     gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
     gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+    gTasks[taskId].tAutoRun = FlagGet(FLAG_AUTO_RUN);
     gTasks[taskId].tTypeEffect = FlagGet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
-    gTasks[taskId].tFollower = FlagGet(FLAG_SIGN_READ);
-    gTasks[taskId].tDifficulty = VarGet(VAR_SIGN_READ);
 }
+// gTasks[taskId].tDifficulty = VarGet(VAR_SIGN_READ);
 
 static void DrawOptionsPg1(u8 taskId)
 {  
@@ -219,9 +213,8 @@ static void DrawOptionsPg1(u8 taskId)
 static void DrawOptionsPg2(u8 taskId)
 {
     ReadAllCurrentSettings(taskId);
+    AutoRun_DrawChoices(gTasks[taskId].tAutoRun);
     TypeEffect_DrawChoices(gTasks[taskId].tTypeEffect);
-    Follower_DrawChoices(gTasks[taskId].tFollower);
-    Difficulty_DrawChoices(gTasks[taskId].tDifficulty);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
@@ -508,26 +501,19 @@ static void Task_OptionMenuProcessInput_Pg2(u8 taskId)
 
         switch (gTasks[taskId].tMenuSelection)
         {
+        case MENUITEM_AUTORUN:
+            previousOption = gTasks[taskId].tAutoRun;
+            gTasks[taskId].tAutoRun = AutoRun_ProcessInput(gTasks[taskId].tAutoRun);
+
+            if (previousOption != gTasks[taskId].tAutoRun)
+                AutoRun_DrawChoices(gTasks[taskId].tAutoRun);
+            break;
         case MENUITEM_TYPEEFFECT:
             previousOption = gTasks[taskId].tTypeEffect;
             gTasks[taskId].tTypeEffect = TypeEffect_ProcessInput(gTasks[taskId].tTypeEffect);
 
             if (previousOption != gTasks[taskId].tTypeEffect)
                 TypeEffect_DrawChoices(gTasks[taskId].tTypeEffect);
-            break;
-        case MENUITEM_FOLLOWER:
-            previousOption = gTasks[taskId].tFollower;
-            gTasks[taskId].tFollower = Follower_ProcessInput(gTasks[taskId].tFollower);
-
-            if (previousOption != gTasks[taskId].tFollower)
-                Follower_DrawChoices(gTasks[taskId].tFollower);
-            break;
-        case MENUITEM_DIFFICULTY:
-            previousOption = gTasks[taskId].tDifficulty;
-            gTasks[taskId].tDifficulty = Difficulty_ProcessInput(gTasks[taskId].tDifficulty);
-
-            if (previousOption != gTasks[taskId].tDifficulty)
-                Difficulty_DrawChoices(gTasks[taskId].tDifficulty);
             break;
         default:
             return;
@@ -549,12 +535,12 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
+    gTasks[taskId].tAutoRun == 0 ? FlagClear(FLAG_AUTO_RUN) : FlagSet(FLAG_AUTO_RUN);
     gTasks[taskId].tTypeEffect == 0 ? FlagClear(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW) : FlagSet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
-    gTasks[taskId].tFollower == 0 ? FlagClear(FLAG_SIGN_READ) : FlagSet(FLAG_SIGN_READ);
-    VarSet(VAR_SIGN_READ, gTasks[taskId].tDifficulty);
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
 }
+// VarSet(VAR_DIFFICULTY, gTasks[taskId].tDifficulty);
 
 static void Task_OptionMenuFadeOut(u8 taskId)
 {
@@ -659,6 +645,29 @@ static void BattleScene_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
 }
 
+static u8 AutoRun_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void AutoRun_DrawChoices(u8 selection)
+{
+    u8 styles[2];
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_AutoRunOff, 104, YPOS_AUTORUN, styles[0]);
+    DrawOptionMenuChoice(gText_AutoRunOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_AutoRunOn, 198), YPOS_AUTORUN, styles[1]);
+}
+
 static u8 TypeEffect_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
@@ -682,83 +691,62 @@ static void TypeEffect_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_TypeEffectOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_TypeEffectOn, 198), YPOS_TYPEEFFECT, styles[1]);
 }
 
-static u8 Follower_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        sArrowPressed = TRUE;
-    }
+// static u8 Difficulty_ProcessInput(u8 selection)
+// {
+//     if (JOY_NEW(DPAD_RIGHT))
+//     {
+//         if (selection <= 1)
+//             selection++;
+//         else
+//             selection = 0;
 
-    return selection;
-}
+//         sArrowPressed = TRUE;
+//     }
+//     if (JOY_NEW(DPAD_LEFT))
+//     {
+//         if (selection != 0)
+//             selection--;
+//         else
+//             selection = 2;
 
-static void Follower_DrawChoices(u8 selection)
-{
-    u8 styles[2];
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
-    DrawOptionMenuChoice(gText_FollowerOff, 104, YPOS_FOLLOWER, styles[0]);
-    DrawOptionMenuChoice(gText_FollowerOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_FollowerOn, 198), YPOS_FOLLOWER, styles[1]);
-}
+//         sArrowPressed = TRUE;
+//     }
+//     return selection;
+// }
 
-static u8 Difficulty_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (selection <= 1)
-            selection++;
-        else
-            selection = 0;
+// static void Difficulty_DrawChoices(u8 selection)
+// {
+//     u8 styles[3];
+//     /* FALSE = Have the middle text be exactly in between where the first text ends and second text begins.
+//        TRUE = Have the mid text be in the middle of the frame, ignoring the first and last text size. 
+//     Setting it to FALSE is how vanilla code does it for the TEST SPEED, but the layout looks off-center if there's
+//     multiple three-item options in one page and the length of characters for the first and last choices
+//     of one of the options mismatch.*/
+//     bool8 centerMid = TRUE;
+//     s32 widthEasy, widthNormal, widthHard, xMid;
 
-        sArrowPressed = TRUE;
-    }
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        if (selection != 0)
-            selection--;
-        else
-            selection = 2;
+//     styles[0] = 0;
+//     styles[1] = 0;
+//     styles[2] = 0;
+//     styles[selection] = 1;
 
-        sArrowPressed = TRUE;
-    }
-    return selection;
-}
+//     DrawOptionMenuChoice(gText_DifficultyEasy, 104, YPOS_DIFFICULTY, styles[0]);
 
-static void Difficulty_DrawChoices(u8 selection)
-{
-    u8 styles[3];
-    /* FALSE = Have the middle text be exactly in between where the first text ends and second text begins.
-       TRUE = Have the mid text be in the middle of the frame, ignoring the first and last text size. 
-    Setting it to FALSE is how vanilla code does it for the TEST SPEED, but the layout looks off-center if there's
-    multiple three-item options in one page and the length of characters for the first and last choices
-    of one of the options mismatch.*/
-    bool8 centerMid = TRUE;
-    s32 widthEasy, widthNormal, widthHard, xMid;
+//     widthNormal = GetStringWidth(FONT_NORMAL, gText_DifficultyNormal, 0);
+//     if (centerMid){
+//         xMid = (94 - widthNormal) / 2 + 104;
+//     }
+//     else{
+//         widthEasy = GetStringWidth(FONT_NORMAL, gText_DifficultyEasy, 0);
+//         widthHard = GetStringWidth(FONT_NORMAL, gText_DifficultyHard, 0);
+//         widthNormal -= 94;
+//         xMid = (widthEasy - widthNormal - widthHard) / 2 + 104;
+//     }
 
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[2] = 0;
-    styles[selection] = 1;
+//     DrawOptionMenuChoice(gText_DifficultyNormal, xMid, YPOS_DIFFICULTY, styles[1]);
 
-    DrawOptionMenuChoice(gText_DifficultyEasy, 104, YPOS_DIFFICULTY, styles[0]);
-
-    widthNormal = GetStringWidth(FONT_NORMAL, gText_DifficultyNormal, 0);
-    if (centerMid){
-        xMid = (94 - widthNormal) / 2 + 104;
-    }
-    else{
-        widthEasy = GetStringWidth(FONT_NORMAL, gText_DifficultyEasy, 0);
-        widthHard = GetStringWidth(FONT_NORMAL, gText_DifficultyHard, 0);
-        widthNormal -= 94;
-        xMid = (widthEasy - widthNormal - widthHard) / 2 + 104;
-    }
-
-    DrawOptionMenuChoice(gText_DifficultyNormal, xMid, YPOS_DIFFICULTY, styles[1]);
-
-    DrawOptionMenuChoice(gText_DifficultyHard, GetStringRightAlignXOffset(FONT_NORMAL, gText_DifficultyHard, 198), YPOS_DIFFICULTY, styles[2]);
-}
+//     DrawOptionMenuChoice(gText_DifficultyHard, GetStringRightAlignXOffset(FONT_NORMAL, gText_DifficultyHard, 198), YPOS_DIFFICULTY, styles[2]);
+// }
 
 static u8 BattleStyle_ProcessInput(u8 selection)
 {
