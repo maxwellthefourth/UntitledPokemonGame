@@ -48,6 +48,8 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "naming_screen.h"
+#include "party_menu.h"
 
 enum {
     PSS_PAGE_INFO,
@@ -315,6 +317,8 @@ static void DestroyMoveSelectorSprites(u8);
 static void SetMainMoveSelectorColor(u8);
 static void KeepMoveSelectorVisible(u8);
 static void SummaryScreen_DestroyAnimDelayTask(void);
+static void ChangePokemonNicknameSummaryScreen_CB(void);
+static void ChangePokemonNicknameSummaryScreen(void);
 
 // const rom data
 #include "data/text/move_descriptions.h"
@@ -708,6 +712,7 @@ static const u8 sTextColors[][3] =
 
 static const u8 sAButton_Gfx[] = INCBIN_U8("graphics/summary_screen/a_button.4bpp");
 static const u8 sBButton_Gfx[] = INCBIN_U8("graphics/summary_screen/b_button.4bpp");
+static const u8 selectBButton_Gfx[] = INCBIN_U8("graphics/summary_screen/select_button.4bpp");
 
 static void (*const sTextPrinterFunctions[])(void) =
 {
@@ -1184,6 +1189,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     switch (mode)
     {
     case SUMMARY_MODE_NORMAL:
+    case SUMMARY_MODE_NORMAL_BOX:
     case SUMMARY_MODE_BOX:
         sMonSummaryScreen->minPageIndex = 0;
         sMonSummaryScreen->maxPageIndex = PSS_PAGE_COUNT - 1;
@@ -1639,22 +1645,49 @@ static void Task_HandleInput(u8 taskId)
                 }
             }
         }
+        else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
+        {
+            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+            {
+                if (!(sMonSummaryScreen->mode == SUMMARY_MODE_NORMAL_BOX || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->summary.isEgg)) // if pokemon summary is being accessed from a box OR the pokemon is an egg, don't allow nickname change
+                {
+                    StopPokemonAnimations();
+                    PlaySE(SE_SELECT);
+                    gSpecialVar_0x8004 = sMonSummaryScreen->curMonIndex;
+                    sMonSummaryScreen->callback = ChangePokemonNicknameSummaryScreen;
+                    CloseSummaryScreen(taskId);
+                }
+            }
+        }
         else if (JOY_NEW(B_BUTTON))
         {
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
         }
-    #if DEBUG_POKEMON_MENU == TRUE
-        else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
-        {
-            sMonSummaryScreen->callback = CB2_Debug_Pokemon;
-            StopPokemonAnimations();
-            PlaySE(SE_SELECT);
-            CloseSummaryScreen(taskId);
-        }
-    #endif
+    // #if DEBUG_POKEMON_MENU == TRUE
+    //     else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
+    //     {
+    //         sMonSummaryScreen->callback = CB2_Debug_Pokemon;
+    //         StopPokemonAnimations();
+    //         PlaySE(SE_SELECT);
+    //         CloseSummaryScreen(taskId);
+    //     }
+    // #endif
     }
+}
+
+static void ChangePokemonNicknameSummaryScreen_CB(void)
+{
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
+    CB2_PartyMenuFromStartMenu();
+}
+
+static void ChangePokemonNicknameSummaryScreen(void)
+{
+    GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar3);
+    GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL), GetMonGender(&gPlayerParty[gSpecialVar_0x8004]), GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL), ChangePokemonNicknameSummaryScreen_CB);
 }
 
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
@@ -2922,6 +2955,12 @@ static void PrintAOrBButtonIcon(u8 windowId, bool8 bButton, u32 x)
     BlitBitmapToWindow(windowId, (bButton) ? sBButton_Gfx : sBButton_Gfx - sizeof(sBButton_Gfx), x, 0, 16, 16);
 }
 
+static void PrintSelectButtonIcon(u8 windowId, u32 x)
+{
+    BlitBitmapToWindow(windowId, selectBButton_Gfx, x, 0, 24, 16);
+    DebugPrintf("x: %d", x);
+}
+
 static void PrintPageNamesAndStats(void)
 {
     int stringXPos;
@@ -2933,12 +2972,24 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, gText_ContestMoves, 2, 1, 0, 1);
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, gText_Cancel2, 62);
-    iconXPos = stringXPos - 16;
-    if (iconXPos < 0)
-        iconXPos = 0;
-    PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_CANCEL, FALSE, iconXPos);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, gText_Cancel2, stringXPos, 1, 0, 0);
+    if (sMonSummaryScreen->mode == SUMMARY_MODE_NORMAL_BOX || sMonSummaryScreen->mode == SUMMARY_MODE_BOX) // if pokemon summary is being accessed from a box OR the pokemon is an egg, don't allow nicknames
+    {
+        stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, gText_Cancel2, 62);
+        iconXPos = stringXPos - 16;
+        if (iconXPos < 0)
+            iconXPos = 0;
+        PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_CANCEL, FALSE, iconXPos);
+        PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, gText_Cancel2, stringXPos, 1, 0, 0);
+    }
+    else
+    {
+        stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, gText_Nickname, 62);
+        iconXPos = stringXPos - 24;
+        if (iconXPos < 0)
+            iconXPos = 0;
+        PrintSelectButtonIcon(PSS_LABEL_WINDOW_PROMPT_CANCEL, iconXPos);
+        PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, gText_Nickname, stringXPos, 1, 0, 0);
+    }
 
     stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, gText_Info, 62);
     iconXPos = stringXPos - 16;

@@ -22,6 +22,7 @@ void SummaryScreen_SetAnimDelayTaskId(u8 taskId);
 enum PokemonSummaryScreenMode
 {
     SUMMARY_MODE_NORMAL,
+    SUMMARY_MODE_NORMAL_BOX,
     SUMMARY_MODE_LOCK_MOVES,
     SUMMARY_MODE_BOX,
     SUMMARY_MODE_SELECT_MOVE,
