@@ -3103,7 +3103,7 @@ static void BufferCharacteristicString(void)
     }
 
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(6, gCharacteristicPointers[(highestValue % 5) * 6 + highestIV]);
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(7, gNatureFlavorPointers[sum->nature]);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(7, gNatureFlavorPointers[sum->nature]); // this
 }
 
 static void GetMetLevelString(u8 *output)
