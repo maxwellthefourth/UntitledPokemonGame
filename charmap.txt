@@ -45,6 +45,15 @@ SUPER_ER    = 2C
 LV          = 34
 '='         = 35
 ';'         = 36
+WINDOW_EMPTY1       = 37
+WINDOW_EMPTY2       = 38
+WINDOW_EMPTY3       = 39
+WINDOW_TOP1         = 3A
+WINDOW_TOP2         = 3B
+WINDOW_TOP3         = 3C
+WINDOW_BOTTOM1      = 3D
+WINDOW_BOTTOM2      = 3E
+WINDOW_BOTTOM3      = 3F
 '¿'         = 51
 '¡'         = 52
 PK          = 53
@@ -1046,6 +1055,11 @@ ROUND_RIGHT_PAREN = F9 14
 CIRCLE_DOT = F9 15
 TRIANGLE = F9 16
 BIG_MULT_X = F9 17
+SUM_IMMUNE = F9 19
+SUM_SHINY = F9 1A
+SUM_FATEFUL = F9 1B
+SUM_DOWN = F9 1C
+SUM_UP = F9 1D
 
 EMOJI_UNDERSCORE = F9 D0
 EMOJI_PIPE = F9 D1
