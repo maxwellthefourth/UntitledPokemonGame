@@ -579,6 +579,7 @@ inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u3
     xAdd = j + width;
     yAdd = i + height;
     dummyX = j;
+    DebugPrintf("i: %d, height: %d, yAdd: %d", i, height, yAdd);
     for (; i < yAdd; i++)
     {
         pixelData = *glyphPixels++;
