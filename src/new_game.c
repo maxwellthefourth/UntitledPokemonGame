@@ -99,6 +99,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
     FlagSet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
+    FlagSet(FLAG_NICKNAME_CAUGHT);
 }
 
 static void ClearPokedexFlags(void)
