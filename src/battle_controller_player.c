@@ -80,7 +80,7 @@ static void HandleInputChooseTarget(u32 battler);
 static void HandleInputChooseMove(u32 battler);
 static void MoveSelectionDisplayPpNumber(u32 battler);
 static void MoveSelectionDisplayPpString(u32 battler);
-static void MoveSelectionDisplayMoveTypeDoubles(u32 battler);
+static void MoveSelectionDisplayMoveTypeDoubles(u32 battler, u32 targetId);
 static void MoveSelectionDisplayMoveType(u32 battler);
 static void MoveSelectionDisplayMoveNames(u32 battler);
 static void MoveSelectionDisplayInfo(u32 battler);
@@ -501,7 +501,7 @@ static void HandleInputChooseTarget(u32 battler)
                     i++;
                     break;
                 }
-                MoveSelectionDisplayMoveTypeDoubles(GetBattlerPosition(gMultiUsePlayerCursor));
+                MoveSelectionDisplayMoveTypeDoubles(battler, GetBattlerPosition(gMultiUsePlayerCursor));
 
                 if (gAbsentBattlerFlags & gBitTable[gMultiUsePlayerCursor]
                  || !CanTargetBattler(battler, gMultiUsePlayerCursor, move))
@@ -552,7 +552,7 @@ static void HandleInputChooseTarget(u32 battler)
                     i++;
                     break;
                 }
-                MoveSelectionDisplayMoveTypeDoubles(GetBattlerPosition(gMultiUsePlayerCursor));
+                MoveSelectionDisplayMoveTypeDoubles(battler, GetBattlerPosition(gMultiUsePlayerCursor));
 
                 if (gAbsentBattlerFlags & gBitTable[gMultiUsePlayerCursor]
                  || !CanTargetBattler(battler, gMultiUsePlayerCursor, move))
@@ -768,7 +768,7 @@ static void HandleInputChooseMove(u32 battler)
                 gMultiUsePlayerCursor = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
             else
                 gMultiUsePlayerCursor = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
-            MoveSelectionDisplayMoveTypeDoubles(GetBattlerPosition(gMultiUsePlayerCursor));
+            MoveSelectionDisplayMoveTypeDoubles(battler, GetBattlerPosition(gMultiUsePlayerCursor));
 
             gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_ShowAsMoveTarget;
             break;
@@ -1690,7 +1690,7 @@ static void MoveSelectionDisplayPpNumber(u32 battler)
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
-u8 TypeEffectiveness(u32 battler)
+u8 TypeEffectiveness(u32 battler, u32 targetId)
 {
     uq4_12_t moveFlags;
     u16 move;
@@ -1704,11 +1704,14 @@ u8 TypeEffectiveness(u32 battler)
     //     gBattleMoves[moveInfo->moves[gMoveSelectionCursor[battler]]]
     move = moveInfo->moves[gMoveSelectionCursor[battler]];
     move = gBattleMons[battler].moves[gMoveSelectionCursor[battler]];
-    
-    opposingPosition = BATTLE_OPPOSITE(GetBattlerPosition(battler));
-    opposingBattler = GetBattlerAtPosition(opposingPosition);
+    if (targetId == 5) { // non-double battle
+        opposingPosition = BATTLE_OPPOSITE(GetBattlerPosition(battler));
+        opposingBattler = GetBattlerAtPosition(opposingPosition);
+    }
+    else {
+        opposingBattler = targetId;
+    }
     moveFlags = AI_GetTypeEffectiveness(move, battler, opposingBattler);
-    // DebugPrintf("moveFlags: %d", moveFlags);
     if (moveFlags == 0) { // idk why but 4096 is the "default", normal-damage effectiveness number that gets returned (don't @ me)
         return B_WIN_TYPE_NO_EFF;
     }
@@ -1722,28 +1725,38 @@ u8 TypeEffectiveness(u32 battler)
         return 10; // 10 - normal effectiveness
 }
 
-static void MoveSelectionDisplayMoveTypeDoubles(u32 battler)
+static void MoveSelectionDisplayMoveTypeDoubles(u32 battler, u32 targetId) //targetId
 {
 	u8 *txtPtr;
-	struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[battler][4]);
+	struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
 
-	txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
-	txtPtr[0] = EXT_CTRL_CODE_BEGIN;
-	txtPtr++;
-	txtPtr[0] = 6;
-	txtPtr++;
-	txtPtr[0] = 1;
-	txtPtr++;
+	// txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
+	// txtPtr[0] = EXT_CTRL_CODE_BEGIN;
+	// txtPtr++;
+	// txtPtr[0] = 6;
+	// txtPtr++;
+	// txtPtr[0] = 1;
+	// txtPtr++;
+
+    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
+    *(txtPtr)++ = EXT_CTRL_CODE_BEGIN;
+    *(txtPtr)++ = EXT_CTRL_CODE_FONT;
+    *(txtPtr)++ = FONT_NORMAL;
+
+    DebugPrintf("battler: %d", battler);
+    DebugPrintf("targetId: %d", targetId);
 
 	StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[battler]]].type]);
-	BattlePutTextOnWindow(gDisplayedStringBattle, TypeEffectiveness(battler));
+	BattlePutTextOnWindow(gDisplayedStringBattle, TypeEffectiveness(battler, targetId)); //targetId
+    MoveSelectionDisplaySplitIcon(battler);
 }
 
 static void MoveSelectionDisplayMoveType(u32 battler)
 {
     u8 *txtPtr;
     //u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(GetBattlerAtPosition(BATTLE_OPPOSITE(GetBattlerPosition(battler))));
-    u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(battler);
+    //u8 typeColor = IsDoubleBattle() ? B_WIN_MOVE_TYPE : TypeEffectiveness(battler);
+    u8 typeColor = TypeEffectiveness(battler, 5);
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
 
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
@@ -2245,7 +2258,7 @@ static void PlayerHandleEndBounceEffect(u32 battler)
 {
     EndBounceEffect(battler, BOUNCE_HEALTHBOX);
     EndBounceEffect(battler, BOUNCE_MON);
-    MoveSelectionDisplayMoveTypeDoubles(GetBattlerPosition(gMultiUsePlayerCursor));
+    MoveSelectionDisplayMoveTypeDoubles(battler, GetBattlerPosition(gMultiUsePlayerCursor));
     PlayerBufferExecCompleted(battler);
 }
 

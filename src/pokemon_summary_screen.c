@@ -3311,9 +3311,9 @@ static void PrintSkillsPage(void)
         numHPBarTicks = 1;
 
     if (natureMod[STAT_ATK - 1] > 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 25, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 25, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
     else if (natureMod[STAT_ATK - 1] < 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 25, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 25, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Attack, 12, 25, 0, 1);
     if (sMonSummaryScreen->currStatIndex == 0)
         ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -3325,9 +3325,9 @@ static void PrintSkillsPage(void)
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 25, 0, 0);
 
     if (natureMod[STAT_DEF - 1] > 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 41, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 41, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
     else if (natureMod[STAT_DEF - 1] < 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 41, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 41, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Defense, 12, 41, 0, 1);
     if (sMonSummaryScreen->currStatIndex == 0)
         ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -3339,9 +3339,9 @@ static void PrintSkillsPage(void)
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 41, 0, 0);
 
     if (natureMod[STAT_SPATK - 1] > 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 57, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 57, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
     else if (natureMod[STAT_SPATK - 1] < 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 57, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 57, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_SpecialAttack, 12, 57, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (sMonSummaryScreen->currStatIndex == 0)
         ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -3353,9 +3353,9 @@ static void PrintSkillsPage(void)
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 57, 0, 0);
 
     if (natureMod[STAT_SPDEF - 1] > 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 73, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 73, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
     else if (natureMod[STAT_SPDEF - 1] < 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 73, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 73, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_SpecialDefense, 12, 73, 0, 1);
     if (sMonSummaryScreen->currStatIndex == 0)
         ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -3367,9 +3367,9 @@ static void PrintSkillsPage(void)
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 73, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
     if (natureMod[STAT_SPEED - 1] > 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 89, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureUp, 0, 89, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
     else if (natureMod[STAT_SPEED - 1] < 0)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 89, 0, COLOR_STAT_ARROWS);
+        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NatureDown, 0, 89, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Speed, 12, 89, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (sMonSummaryScreen->currStatIndex == 0)
         ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
