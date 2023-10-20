@@ -8362,6 +8362,7 @@ const struct Item gItems[] =
     {
         .name = _("HM01"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM01Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8374,6 +8375,7 @@ const struct Item gItems[] =
     {
         .name = _("HM02"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM02Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8386,6 +8388,7 @@ const struct Item gItems[] =
     {
         .name = _("HM03"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM03Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8398,6 +8401,7 @@ const struct Item gItems[] =
     {
         .name = _("HM04"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM04Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8410,6 +8414,7 @@ const struct Item gItems[] =
     {
         .name = _("HM05"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM05Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8422,6 +8427,7 @@ const struct Item gItems[] =
     {
         .name = _("HM06"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM06Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8434,6 +8440,7 @@ const struct Item gItems[] =
     {
         .name = _("HM07"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM07Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8446,6 +8453,7 @@ const struct Item gItems[] =
     {
         .name = _("HM08"),
         .price = 0,
+        .holdEffect = 1,
         .description = sHM08Desc,
         .importance = 1,
         .pocket = POCKET_TM_HM,
@@ -8743,7 +8751,7 @@ const struct Item gItems[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_TmCase,
     },
 
     [ITEM_BERRY_POUCH] =
