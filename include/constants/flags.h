@@ -44,9 +44,9 @@
 
 #define FLAG_FOLLOWER_ACTIVE                     0x20 // Reveals the follower object
 #define FLAG_FOLLOWER_IN_BUILDING                0x21 // Used for speeding up follower door exiting
-#define FLAG_SIGN_READ     0x22
-#define FLAG_GET_PIKACHU    0x23 
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
+#define FLAG_SIGN_READ       0x22
+#define FLAG_GET_PIKACHU     0x23 
+#define FLAG_NICKNAME_CAUGHT 0x24 
 #define FLAG_UNUSED_0x025    0x25 // Unused Flag
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag

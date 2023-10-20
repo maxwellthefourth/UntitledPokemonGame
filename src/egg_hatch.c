@@ -666,10 +666,16 @@ static void CB2_EggHatch(void)
         break;
     case 8:
         // Ready the nickname prompt
-        GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyId], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_NicknameHatchPrompt);
-        EggHatchPrintMessage(sEggHatchData->windowId, gStringVar4, 0, 2, 1);
-        sEggHatchData->state++;
+        if (FlagGet(FLAG_NICKNAME_CAUGHT)) {
+            GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyId], gStringVar1);
+            StringExpandPlaceholders(gStringVar4, gText_NicknameHatchPrompt);
+            EggHatchPrintMessage(sEggHatchData->windowId, gStringVar4, 0, 2, 1);
+            sEggHatchData->state++;
+        }
+        else
+        {
+            sEggHatchData->state += 3;
+        }
         break;
     case 9:
         // Print the nickname prompt

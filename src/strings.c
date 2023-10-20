@@ -1500,6 +1500,7 @@ const u8 gText_OptionMenuCancel[] = _("Cancel");
 const u8 gText_ButtonMode[] = _("Button mode");
 const u8 gText_AutoRun[] = _("Auto Run");
 const u8 gText_TypeEffect[] = _("Show Type Eff.");
+const u8 gText_NicknameCaught[] = _("Nickname Caught");
 // const u8 gText_Difficulty[] = _("DIFFICULTY");
 const u8 gText_TextSpeedSlow[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Slow");
 const u8 gText_TextSpeedMid[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Mid");

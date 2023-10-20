@@ -3,6 +3,7 @@
 #include "constants/battle_script_commands.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_string_ids.h"
+#include "constants/flags.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/game_stat.h"
@@ -159,10 +160,16 @@ BattleScript_TryPrintCaughtMonInfo:
     setbyte gBattleCommunication, 0
     displaydexinfo
 BattleScript_TryNicknameCaughtMon::
+    jumpifbyte CMP_NOT_EQUAL, sNICKNAME_CAUGHT, TRUE, BattleScript_StopNicknameCaughtMon
     printstring STRINGID_GIVENICKNAMECAPTURED
     waitstate
     setbyte gBattleCommunication, 0
     trygivecaughtmonnick BattleScript_GiveCaughtMonEnd
+    givecaughtmon
+    printfromtable gCaughtMonStringIds
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_SuccessBallThrowEnd
+BattleScript_StopNicknameCaughtMon::
     givecaughtmon
     printfromtable gCaughtMonStringIds
     waitmessage B_WAIT_TIME_LONG

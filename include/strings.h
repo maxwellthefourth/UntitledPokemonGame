@@ -329,6 +329,7 @@ extern const u8 gText_OptionMenuCancel[];
 extern const u8 gText_ButtonMode[];
 extern const u8 gText_AutoRun[];
 extern const u8 gText_TypeEffect[];
+extern const u8 gText_NicknameCaught[];
 // extern const u8 gText_Difficulty[];
 
 extern const u8 gText_MaleSymbol[];

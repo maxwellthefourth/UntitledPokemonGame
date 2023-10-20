@@ -3065,6 +3065,7 @@ static void BattleStartClearSetData(void)
 
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
 	gBattleScripting.expOnCatch = (B_EXP_CATCH >= GEN_6);
+    gBattleScripting.nicknameCaught = FlagGet(FLAG_NICKNAME_CAUGHT);
 	gBattleScripting.monCaught = FALSE;
 
     gMultiHitCounter = 0;
