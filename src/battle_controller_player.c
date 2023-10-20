@@ -1743,8 +1743,8 @@ static void MoveSelectionDisplayMoveTypeDoubles(u32 battler, u32 targetId) //tar
     *(txtPtr)++ = EXT_CTRL_CODE_FONT;
     *(txtPtr)++ = FONT_NORMAL;
 
-    DebugPrintf("battler: %d", battler);
-    DebugPrintf("targetId: %d", targetId);
+    // DebugPrintf("battler: %d", battler);
+    // DebugPrintf("targetId: %d", targetId);
 
 	StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[battler]]].type]);
 	BattlePutTextOnWindow(gDisplayedStringBattle, TypeEffectiveness(battler, targetId)); //targetId

@@ -570,7 +570,31 @@ static u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
+inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u32 *glyphPixels, s32 width, s32 height)
+{
+    u32 xAdd, yAdd, pixelData, bits, toOrr, dummyX;
+    u8 *dst;
+
+    xAdd = j + width;
+    yAdd = i + height;
+    dummyX = j;
+    for (; i < yAdd; i++)
+    {
+        pixelData = *glyphPixels++;
+        for (j = dummyX; j < xAdd; j++)
+        {
+            if ((toOrr = pixelData & 0xF))
+            {
+                dst = windowTiles + ((j / 8) * 32) + ((j % 8) / 2) + ((i / 8) * widthOffset) + ((i % 8) * 4);
+                bits = ((j & 1) * 4);
+                *dst = (toOrr << bits) | (*dst & (0xF0 >> bits));
+            }
+            pixelData >>= 4;
+        }
+    }
+}
+
+inline static void GLYPH_COPY_signed(u8 *windowTiles, u32 widthOffset, u32 j, s64 i, u32 *glyphPixels, s32 width, s32 height)
 {
     u32 xAdd, pixelData, bits, toOrr, dummyX, dummyY;
     s64 yAdd;
@@ -616,39 +640,72 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
         glyphHeight = gCurGlyph.height;
 
     currX = textPrinter->printerTemplate.currentX;
-    if (textPrinter->printerTemplate.unk)
+    if (textPrinter->printerTemplate.unk) {
         currY = textPrinter->printerTemplate.currentY - (textPrinter->printerTemplate.y * 2);
+        // DebugPrintf("yep");
+    }
     else
         currY = textPrinter->printerTemplate.currentY;
     glyphPixels = gCurGlyph.gfxBufferTop;
     windowTiles = window->tileData;
     widthOffset = template->width * 32;
 
-    if (glyphWidth < 9)
-    {
-        if (glyphHeight < 9)
+    if (textPrinter->printerTemplate.unk) { // attempt to fix health bar bug with dppt summary screen, likely breaks several other stuff
+        if (glyphWidth < 9)
         {
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, glyphHeight);
+            if (glyphHeight < 9)
+            {
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, glyphHeight);
+            }
+            else
+            {
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, 8);
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, glyphWidth, glyphHeight - 8);
+            }
         }
         else
         {
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, 8);
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, glyphWidth, glyphHeight - 8);
+            if (glyphHeight < 9)
+            {
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY, glyphPixels, 8, glyphHeight);
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, glyphHeight);
+            }
+            else
+            {
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY, glyphPixels, 8, 8);
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, 8);
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, 8, glyphHeight - 8);
+                GLYPH_COPY_signed(windowTiles, widthOffset, currX + 8, currY + 8, glyphPixels + 24, glyphWidth - 8, glyphHeight - 8);
+            }
         }
     }
-    else
-    {
-        if (glyphHeight < 9)
+    else {
+        if (glyphWidth < 9)
         {
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, 8, glyphHeight);
-            GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, glyphHeight);
+            if (glyphHeight < 9)
+            {
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, glyphHeight);
+            }
+            else
+            {
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, glyphWidth, 8);
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, glyphWidth, glyphHeight - 8);
+            }
         }
         else
         {
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, 8, 8);
-            GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, 8);
-            GLYPH_COPY(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, 8, glyphHeight - 8);
-            GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY + 8, glyphPixels + 24, glyphWidth - 8, glyphHeight - 8);
+            if (glyphHeight < 9)
+            {
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, 8, glyphHeight);
+                GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, glyphHeight);
+            }
+            else
+            {
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY, glyphPixels, 8, 8);
+                GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY, glyphPixels + 8, glyphWidth - 8, 8);
+                GLYPH_COPY(windowTiles, widthOffset, currX, currY + 8, glyphPixels + 16, 8, glyphHeight - 8);
+                GLYPH_COPY(windowTiles, widthOffset, currX + 8, currY + 8, glyphPixels + 24, glyphWidth - 8, glyphHeight - 8);
+            }
         }
     }
 }
