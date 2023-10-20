@@ -68,6 +68,7 @@ void ItemUseCB_FormChange_ConsumedOnUse(u8 taskId, TaskFunc task);
 const u8* GetItemEffect(u16 item);
 u8 GetItemEffectType(u16 item);
 void CB2_PartyMenuFromStartMenu(void);
+void CB2_ReturnToPartyMenuFromSummaryScreenAfterNickname(void);
 void CB2_ChooseMonToGiveItem(void);
 void ChooseMonToGiveMailFromMailbox(void);
 void InitChooseHalfPartyForBattle(u8 unused);

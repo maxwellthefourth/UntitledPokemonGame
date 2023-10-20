@@ -6011,6 +6011,12 @@ void CB2_PartyMenuFromStartMenu(void)
     InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, CB2_ReturnToFieldWithOpenMenu);
 }
 
+void CB2_ReturnToPartyMenuFromSummaryScreenAfterNickname(void) {
+    gPaletteFade.bufferTransferDisabled = TRUE;
+    gPartyMenu.slotId = gLastViewedMonIndex;
+    InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, gPartyMenu.exitCallback);
+}
+
 // Giving an item by selecting Give from the bag menu
 // As opposted to by selecting Give in the party menu, which is handled by CursorCb_Give
 void CB2_ChooseMonToGiveItem(void)

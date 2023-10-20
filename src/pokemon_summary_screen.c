@@ -1717,7 +1717,7 @@ static void Task_HandleInput(u8 taskId)
 static void ChangePokemonNicknameSummaryScreen_CB(void)
 {
     SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
-    CB2_PartyMenuFromStartMenu();
+    CB2_ReturnToPartyMenuFromSummaryScreenAfterNickname();
 }
 
 static void ChangePokemonNicknameSummaryScreen(void)
