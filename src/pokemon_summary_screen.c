@@ -4524,7 +4524,8 @@ static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
             break;
         case PSS_PAGE_MEMO:
             StringCopy(gStringVar1, sText_TitleMemo);
-            StringCopy(gStringVar2, sText_TitlePageRename);
+            if (!(sMonSummaryScreen->mode == SUMMARY_MODE_NORMAL_BOX || sMonSummaryScreen->mode == SUMMARY_MODE_BOX || sMonSummaryScreen->summary.isEgg)) // if pokemon summary is being accessed from a box OR the pokemon is an egg, don't allow nickname change
+                StringCopy(gStringVar2, sText_TitlePageRename);
             break;
         case PSS_PAGE_SKILLS:
             // if (!FlagGet(FLAG_SYS_GAME_CLEAR))

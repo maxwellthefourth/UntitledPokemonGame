@@ -7,6 +7,8 @@
 #include "config/pokemon.h"
 #include "config/overworld.h"
 
+#include "constants/items.h"
+
 // Invalid Versions show as "----------" in Gen 4 and Gen 5's summary screen.
 // In Gens 6 and 7, invalid versions instead show "a distant land" in the summary screen.
 // In Gen 4 only, migrated Pokemon with Diamond, Pearl, or Platinum's ID show as "----------".
@@ -54,12 +56,12 @@
 #define MAIL_COUNT (10 + PARTY_SIZE)
 #define SECRET_BASES_COUNT 4
 #define POKE_NEWS_COUNT 16
-#define PC_ITEMS_COUNT 50
-#define BAG_ITEMS_COUNT 30
-#define BAG_KEYITEMS_COUNT 30
-#define BAG_POKEBALLS_COUNT 16
-#define BAG_TMHM_COUNT 64
-#define BAG_BERRIES_COUNT 46
+#define PC_ITEMS_COUNT 127
+#define BAG_ITEMS_COUNT 127
+#define BAG_KEYITEMS_COUNT 80
+#define BAG_POKEBALLS_COUNT 28
+#define BAG_TMHM_COUNT (NUM_TECHNICAL_MACHINES + NUM_HIDDEN_MACHINES) // Number of TMs and HMs that can fit in the TMs & HMs pocket of the bag.
+#define BAG_BERRIES_COUNT 68
 #define OBJECT_EVENT_TEMPLATES_COUNT 64
 #define DECOR_MAX_SECRET_BASE 16
 #define DECOR_MAX_PLAYERS_HOUSE 12
