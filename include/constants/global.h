@@ -56,8 +56,8 @@
 #define MAIL_COUNT (10 + PARTY_SIZE)
 #define SECRET_BASES_COUNT 4
 #define POKE_NEWS_COUNT 16
-#define PC_ITEMS_COUNT 127
-#define BAG_ITEMS_COUNT 127
+#define PC_ITEMS_COUNT 120
+#define BAG_ITEMS_COUNT 200
 #define BAG_KEYITEMS_COUNT 80
 #define BAG_POKEBALLS_COUNT 28
 #define BAG_TMHM_COUNT (NUM_TECHNICAL_MACHINES + NUM_HIDDEN_MACHINES) // Number of TMs and HMs that can fit in the TMs & HMs pocket of the bag.
