@@ -1,19 +1,19 @@
 #include "constants/event_objects.h"
 #include "constants/global.h"
 
-const u8 gCostumeFrontPics[COSTUME_COUNT][GENDER_COUNT] = 
+const u16 gCostumeFrontPics[COSTUME_COUNT][GENDER_COUNT] = 
 {
     [DEFAULT_COSTUME] = {TRAINER_PIC_BRENDAN, TRAINER_PIC_MAY},
     [COSTUME_1] = {TRAINER_PIC_RS_BRENDAN, TRAINER_PIC_RS_MAY},
 };
 
-const u8 gCostumeBackPics[COSTUME_COUNT][GENDER_COUNT] = 
+const u16 gCostumeBackPics[COSTUME_COUNT][GENDER_COUNT] = 
 {
     [DEFAULT_COSTUME] = {TRAINER_BACK_PIC_BRENDAN, TRAINER_BACK_PIC_MAY},
     [COSTUME_1] = {TRAINER_BACK_PIC_RUBY_SAPPHIRE_BRENDAN, TRAINER_BACK_PIC_RUBY_SAPPHIRE_MAY},
 };
 
-const u8 gPlayerAvatarGfxIds[COSTUME_COUNT][PLAYER_AVATAR_FLAG_COUNT][GENDER_COUNT] =
+const u16 gPlayerAvatarGfxIds[COSTUME_COUNT][PLAYER_AVATAR_FLAG_COUNT][GENDER_COUNT] =
 {
     [DEFAULT_COSTUME] =
     {
@@ -39,7 +39,7 @@ const u8 gPlayerAvatarGfxIds[COSTUME_COUNT][PLAYER_AVATAR_FLAG_COUNT][GENDER_COU
     },
 };
 
-const u8 gPlayerAvatarGfxToStateFlag[COSTUME_COUNT][2][5][2] =
+const u16 gPlayerAvatarGfxToStateFlag[COSTUME_COUNT][2][5][2] =
 {
     [DEFAULT_COSTUME] =
     {

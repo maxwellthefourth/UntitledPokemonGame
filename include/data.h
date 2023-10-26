@@ -119,10 +119,10 @@ extern const u8 gTrainerClassNames[][13];
 extern const u8 gSpeciesNames[NUM_SPECIES][POKEMON_NAME_LENGTH + 1];
 extern const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
 
-extern const u8 gCostumeBackPics[COSTUME_COUNT][GENDER_COUNT];
-extern const u8 gCostumeFrontPics[COSTUME_COUNT][GENDER_COUNT];
-extern const u8 gPlayerAvatarGfxIds[COSTUME_COUNT][PLAYER_AVATAR_FLAG_COUNT][GENDER_COUNT];
-extern const u8 gPlayerAvatarGfxToStateFlag[COSTUME_COUNT][2][5][2];
+extern const u16 gCostumeBackPics[COSTUME_COUNT][GENDER_COUNT];
+extern const u16 gCostumeFrontPics[COSTUME_COUNT][GENDER_COUNT];
+extern const u16 gPlayerAvatarGfxIds[COSTUME_COUNT][PLAYER_AVATAR_FLAG_COUNT][GENDER_COUNT];
+extern const u16 gPlayerAvatarGfxToStateFlag[COSTUME_COUNT][2][5][2];
 
 struct RegionMapIcon
 {
