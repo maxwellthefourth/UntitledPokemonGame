@@ -298,8 +298,14 @@ static void ShowTimeWindow(void);
 
 // save throbber
 #define TAG_THROBBER 0x1000
-static const u16 sThrobber_Pal[] = INCBIN_U16("graphics/text_window/throbber.gbapal");
-const u32 gThrobber_Gfx[] = INCBIN_U32("graphics/text_window/throbber.4bpp.lz");
+static const u16 sThrobber_Poke_Pal[] = INCBIN_U16("graphics/text_window/throbber_poke.gbapal");
+const u32 gThrobber_Poke_Gfx[] = INCBIN_U32("graphics/text_window/throbber_poke.4bpp.lz");
+static const u16 sThrobber_Great_Pal[] = INCBIN_U16("graphics/text_window/throbber_great.gbapal");
+const u32 gThrobber_Great_Gfx[] = INCBIN_U32("graphics/text_window/throbber_great.4bpp.lz");
+static const u16 sThrobber_Ultra_Pal[] = INCBIN_U16("graphics/text_window/throbber_ultra.gbapal");
+const u32 gThrobber_Ultra_Gfx[] = INCBIN_U32("graphics/text_window/throbber_ultra.4bpp.lz");
+static const u16 sThrobber_Master_Pal[] = INCBIN_U16("graphics/text_window/throbber_master.gbapal");
+const u32 gThrobber_Master_Gfx[] = INCBIN_U32("graphics/text_window/throbber_master.4bpp.lz");
 static u8 spriteId;
 
 static const struct OamData sOam_Throbber =
@@ -334,20 +340,71 @@ static const union AnimCmd sAnim_Throbber[] =
 
 static const union AnimCmd * const sAnims_Throbber[] = { sAnim_Throbber, };
 
-static const struct CompressedSpriteSheet sSpriteSheet_Throbber[] =
+static const struct CompressedSpriteSheet sSpriteSheet_Poke_Throbber[] =
 {
     {
-        .data = gThrobber_Gfx,
+        .data = gThrobber_Poke_Gfx,
+        .size = 0x3200,
+        .tag = TAG_THROBBER
+    },
+    {}
+};
+static const struct CompressedSpriteSheet sSpriteSheet_Great_Throbber[] =
+{
+    {
+        .data = gThrobber_Great_Gfx,
+        .size = 0x3200,
+        .tag = TAG_THROBBER
+    },
+    {}
+};
+static const struct CompressedSpriteSheet sSpriteSheet_Ultra_Throbber[] =
+{
+    {
+        .data = gThrobber_Ultra_Gfx,
+        .size = 0x3200,
+        .tag = TAG_THROBBER
+    },
+    {}
+};
+static const struct CompressedSpriteSheet sSpriteSheet_Master_Throbber[] =
+{
+    {
+        .data = gThrobber_Master_Gfx,
         .size = 0x3200,
         .tag = TAG_THROBBER
     },
     {}
 };
 
-static const struct SpritePalette sSpritePalettes_Throbber[] =
+static const struct SpritePalette sSpritePalettes_Poke_Throbber[] =
 {
     {
-        .data = sThrobber_Pal,
+        .data = sThrobber_Poke_Pal,
+        .tag = TAG_THROBBER
+    },
+    {},
+};
+static const struct SpritePalette sSpritePalettes_Great_Throbber[] =
+{
+    {
+        .data = sThrobber_Great_Pal,
+        .tag = TAG_THROBBER
+    },
+    {},
+};
+static const struct SpritePalette sSpritePalettes_Ultra_Throbber[] =
+{
+    {
+        .data = sThrobber_Ultra_Pal,
+        .tag = TAG_THROBBER
+    },
+    {},
+};
+static const struct SpritePalette sSpritePalettes_Master_Throbber[] =
+{
+    {
+        .data = sThrobber_Master_Pal,
         .tag = TAG_THROBBER
     },
     {},
@@ -366,8 +423,46 @@ static const struct SpriteTemplate sSpriteTemplate_Throbber =
 
 void ShowThrobber(void)
 {
-    LoadCompressedSpriteSheet(&sSpriteSheet_Throbber[0]);
-    LoadSpritePalettes(sSpritePalettes_Throbber);
+    s32 curFlag;
+    s32 flagCount;
+    for (curFlag = FLAG_BADGE01_GET, flagCount = 0; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++)
+    {
+        if (FlagGet(curFlag))
+            flagCount++;
+    }
+
+    if (FlagGet(FLAG_IS_CHAMPION) == 1) {
+        LoadCompressedSpriteSheet(&sSpriteSheet_Master_Throbber[0]);
+        LoadSpritePalettes(sSpritePalettes_Master_Throbber);
+    }
+    else
+    {
+        switch (flagCount)
+        {
+        case 0:
+        case 1:
+        case 2:
+            LoadCompressedSpriteSheet(&sSpriteSheet_Poke_Throbber[0]);
+            LoadSpritePalettes(sSpritePalettes_Poke_Throbber);
+            break;
+        case 3:
+        case 4:
+        case 5:
+            LoadCompressedSpriteSheet(&sSpriteSheet_Great_Throbber[0]);
+            LoadSpritePalettes(sSpritePalettes_Great_Throbber);
+            break;
+        case 6:
+        case 7:
+        case 8:
+            LoadCompressedSpriteSheet(&sSpriteSheet_Ultra_Throbber[0]);
+            LoadSpritePalettes(sSpritePalettes_Ultra_Throbber);
+            break;
+        default:
+            LoadCompressedSpriteSheet(&sSpriteSheet_Poke_Throbber[0]);
+            LoadSpritePalettes(sSpritePalettes_Poke_Throbber);
+            break;
+        }
+    }
 
     // 217 and 123 are the x and y coordinates (in pixels)
     spriteId = CreateSprite(&sSpriteTemplate_Throbber, 217, 123, 2);
@@ -1280,7 +1375,8 @@ static u8 SaveFileExistsCallback(void)
     }
     else
     {
-        ShowSaveMessage(gText_AlreadySavedFile, SaveConfirmOverwriteCallback);
+        // ShowSaveMessage(gText_AlreadySavedFile, SaveConfirmOverwriteCallback);
+        sSaveDialogCallback = SaveSavingMessageCallback;
     }
 
     return SAVE_IN_PROGRESS;

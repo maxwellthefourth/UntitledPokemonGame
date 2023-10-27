@@ -70,15 +70,28 @@ Debug_BoxFilledMessage_Text:
 	.string "Storage boxes filled!$"
 
 Debug_Script_1::
+	setflag FLAG_BADGE01_GET
 	end
 
 Debug_Script_2::
+	setflag FLAG_BADGE01_GET
+	setflag FLAG_BADGE02_GET
+	setflag FLAG_BADGE03_GET
+	setflag FLAG_BADGE04_GET
 	end
 
 Debug_Script_3::
+	setflag FLAG_BADGE01_GET
+	setflag FLAG_BADGE02_GET
+	setflag FLAG_BADGE03_GET
+	setflag FLAG_BADGE04_GET
+	setflag FLAG_BADGE05_GET
+	setflag FLAG_BADGE06_GET
+	setflag FLAG_BADGE07_GET
 	end
 
 Debug_Script_4::
+	setflag FLAG_IS_CHAMPION
 	end
 
 Debug_Script_5::

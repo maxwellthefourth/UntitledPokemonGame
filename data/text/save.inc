@@ -14,14 +14,15 @@ gText_PlayerSavedGame::
 	.string "{PLAYER} saved the game.$"
 
 gText_DifferentSaveFile::
-	.string "WARNING!\p"
-	.string "There is a different game file that\n"
-	.string "is already saved.\p"
-	.string "If you save now, the other file's\n"
-	.string "adventure, including items and\l"
-	.string "Pokémon, will be entirely lost.\p"
-	.string "Are you sure you want to save now\n"
-	.string "and overwrite the other save file?$"
+	.string "Warning!\p"
+	.string "You are about to overwrite a\n"
+	.string "previous save game file,\l"
+	.string "which will permanently delete it.\p"
+	.string "Consider making a backup of your\n"
+	.string ".sav file, which can be found in\l"
+	.string "the same folder as the .gba file,\l"
+	.string "if you wish to prevent this.\p"
+	.string "Continue?$"
 
 gText_SaveError::
 	.string "Save error.\p"
