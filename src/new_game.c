@@ -153,6 +153,7 @@ void ResetMenuAndMonGlobals(void)
 void NewGameInitData(void)
 {
     bool8 typeEffectPrev = FlagGet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
+    bool8 nicknameCaughtPrev = FlagGet(FLAG_NICKNAME_CAUGHT);
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
@@ -216,6 +217,7 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItemL = ITEM_NONE;
     gSaveBlock1Ptr->registeredItemR = ITEM_NONE;
     typeEffectPrev ? FlagSet(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW) : FlagClear(FLAG_TYPE_EFFECTIVENESS_BATTLE_SHOW);
+    nicknameCaughtPrev ? FlagSet(FLAG_NICKNAME_CAUGHT) : FlagClear(FLAG_NICKNAME_CAUGHT);
 }
 
 static void ResetMiniGamesRecords(void)

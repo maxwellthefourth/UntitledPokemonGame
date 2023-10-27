@@ -3068,6 +3068,8 @@ static void BattleStartClearSetData(void)
     gBattleScripting.nicknameCaught = FlagGet(FLAG_NICKNAME_CAUGHT);
 	gBattleScripting.monCaught = FALSE;
 
+    DebugPrintf("FlagGet(FLAG_NICKNAME_CAUGHT): %d", FlagGet(FLAG_NICKNAME_CAUGHT));
+
     gMultiHitCounter = 0;
     gBattleScripting.savedDmg = 0;
     gBattleOutcome = 0;
